@@ -12,13 +12,19 @@ public class VodafoneRAGController {
 
     private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(VodafoneRAGController.class);
 
-    //https:localhost:8080/chat?query=what is the github account of ecommerce department
+    //https:localhost:8080/chat?query=What is the GitHub account of e-commerce department?
     @GetMapping("/chat")
-    public String chat(@RequestParam(name = "query") String query) {
-        logger.info("Received chat request with query: {}", query);
-        String response = chatBotService.chat(query);
-        logger.info("Response sent: {}", response);
-        return response;
+    public ResponseEntity<String> chat(@RequestParam(name = "query") String query) {
+        try {
+            logger.info("Received chat request with query: {}", query);
+            String response = chatBotService.chat(query);
+            logger.info("Response sent: {}", response);
+            return ResponseEntity.status(200).body(response);
+        } catch (Exception e) {
+            logger.error("Failed to process chat request", e);
+            return ResponseEntity.status(500).body("Failed to process chat request.");
+        }
+
     }
 
     //https:localhost:8080/load
@@ -27,10 +33,10 @@ public class VodafoneRAGController {
         try {
             chatBotService.load();
             logger.info("Load request processed.");
-            return ResponseEntity.ok("Chat loaded successfully");
+            return ResponseEntity.ok("Chat data loaded successfully.");
         } catch (Exception e) {
             logger.error("Failed to load chat data", e);
-            return ResponseEntity.status(500).body("Failed to load chat data");
+            return ResponseEntity.status(500).body("Failed to load chat data.");
         }
     }
 
@@ -40,9 +46,10 @@ public class VodafoneRAGController {
         try {
             chatBotService.clear();
             logger.info("Clear request processed.");
+            return ResponseEntity.ok("Chat data cleared successfully.");
         } catch (Exception e) {
             logger.error("Failed to clear chat data", e);
-            return ResponseEntity.status(500).body("Failed to clear chat data");
+            return ResponseEntity.status(500).body("Failed to clear chat data.");
         }
     }
 }
