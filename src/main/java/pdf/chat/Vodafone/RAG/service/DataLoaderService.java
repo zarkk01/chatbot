@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DataLoaderService {
-    
+
     @Autowired
     public MongoDBAtlasVectorStore vectorStore;
 

@@ -16,7 +16,13 @@ public class DataRetrievalService {
 
     public List<Document> searchData(String query) {
         List<Document> documents = vectorStore.similaritySearch(SearchRequest.defaults().withQuery(query).withTopK(2));
-        logger.info(documents.toString());
+//        logger.info(documents.getFirst().);
+//        for (Document doc : documents) {
+//            // Assuming 'doc' has a method to get the similarity score (if applicable)
+//            // Replace 'getSimilarityScore()' with actual method to retrieve the score
+//            double similarityScore = doc.get
+//            logger.info("Document found with similarity score: {}. Document details: {}", similarityScore, doc.toJson());
+//        }
         return documents;
     }
 }
