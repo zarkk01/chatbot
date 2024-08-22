@@ -20,8 +20,8 @@ public class VodafoneRAGController {
 
     // http://localhost:8080/load
     @PostMapping("/load")
-    public void load() {
-        chatBotService.load();
+    public void load(@RequestParam(name = "file") String file) {
+        chatBotService.load(file);
     }
 
     // http://localhost:8080/clear

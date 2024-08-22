@@ -39,8 +39,8 @@ public class ChatBotService {
         return promptTemplate.render();
     }
 
-    public void load() {
-        dataLoaderService.load();
+    public void load(String file) {
+        dataLoaderService.load(file);
     }
 
     public void clear() {
