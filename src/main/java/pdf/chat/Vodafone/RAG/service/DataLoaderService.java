@@ -34,7 +34,7 @@ public class DataLoaderService {
 
     // Load pdf from the pdfResource in DB.
     public void load() {
-        PagePdfDocumentReader pdfReader = new PagePdfDocumentReader(newcomersResource, PdfDocumentReaderConfig.builder().build());
+        PagePdfDocumentReader pdfReader = new PagePdfDocumentReader(combinedAllResource, PdfDocumentReaderConfig.builder().build());
         vectorStore.add(pdfReader.get());
     }
 

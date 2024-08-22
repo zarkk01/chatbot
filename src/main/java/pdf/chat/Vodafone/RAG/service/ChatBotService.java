@@ -1,8 +1,7 @@
 package pdf.chat.Vodafone.RAG.service;
 
-import java.util.ArrayList;
-import java.util.List;
 
+import java.util.List;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.document.Document;
@@ -24,8 +23,10 @@ public class ChatBotService {
         This is the provided context :
         {context}
         
-        Answer me this query based only on
+        Answer me this query based only on the provided context : 
         {query}
+        
+        If you don't have an answer based on the provided context, just answer "I don't have an answer based on this context." and stop there.
     """;
 
     public String chat(String query) {
