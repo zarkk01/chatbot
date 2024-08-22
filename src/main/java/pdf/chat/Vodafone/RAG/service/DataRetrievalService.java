@@ -12,13 +12,16 @@ public class DataRetrievalService {
     @Autowired
     private MongoDBAtlasVectorStore vectorStore;
 
-    org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(DataRetrievalService.class);
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(DataRetrievalService.class);
 
     public List<Document> searchData(String query) {
-        List<Document> documents = vectorStore.similaritySearch(SearchRequest.defaults().withQuery(query).withTopK(2).withSimilarityThreshold(0.7));
-        logger.info(documents.toString());
+        logger.info("Starting search with query: {}", query);
+        List<Document> documents = vectorStore.similaritySearch(SearchRequest.defaults()
+                .withQuery(query)
+                .withTopK(2)
+                .withSimilarityThreshold(0.7));
+        logger.info("Search completed. Found {} documents.", documents.size());
+        logger.debug("Search results: {}", documents);
         return documents;
     }
 }
-
-

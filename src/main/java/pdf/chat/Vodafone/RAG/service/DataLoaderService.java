@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class DataLoaderService {
 
-    // Here we specify which pdf will be used.
     @Value("classpath:/data/3rdLevel_1.pdf")
     private Resource thirdLevelResource;
 
@@ -27,19 +26,23 @@ public class DataLoaderService {
     private Resource combinedAllResource;
 
     @Autowired
-    public MongoDBAtlasVectorStore vectorStore;
+    private MongoDBAtlasVectorStore vectorStore;
 
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    // Load pdf from the pdfResource in DB.
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(DataLoaderService.class);
+
     public void load() {
+        logger.info("Loading PDF data from resource: {}", newcomersResource);
         PagePdfDocumentReader pdfReader = new PagePdfDocumentReader(newcomersResource, PdfDocumentReaderConfig.builder().build());
         vectorStore.add(pdfReader.get());
+        logger.info("PDF data loaded successfully.");
     }
 
-    // Clear all pdfs from the collection.
     public void clear() {
+        logger.info("Clearing all documents from the collection.");
         mongoTemplate.getCollection("internal").deleteMany(new Document());
+        logger.info("Collection cleared.");
     }
 }
