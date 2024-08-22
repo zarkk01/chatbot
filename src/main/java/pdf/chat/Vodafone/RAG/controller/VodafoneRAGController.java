@@ -24,7 +24,7 @@ public class VodafoneRAGController {
         chatBotService.load();
     }
 
-    // http://localhost:8080/load
+    // http://localhost:8080/clear
     @PostMapping("/clear")
     public void clear() {
         chatBotService.clear();
