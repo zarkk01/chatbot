@@ -15,7 +15,7 @@ public class DataRetrievalService {
     org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(DataRetrievalService.class);
 
     public List<Document> searchData(String query) {
-        List<Document> documents = vectorStore.similaritySearch(SearchRequest.defaults().withQuery(query).withTopK(2).withSimilarityThreshold(0.7));
+        List<Document> documents = vectorStore.similaritySearch(SearchRequest.defaults().withQuery(query).withTopK(2));
         logger.info(documents.toString());
         return documents;
     }

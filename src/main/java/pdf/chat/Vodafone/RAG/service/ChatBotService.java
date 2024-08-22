@@ -1,6 +1,5 @@
 package pdf.chat.Vodafone.RAG.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.ai.chat.model.ChatModel;
@@ -21,11 +20,12 @@ public class ChatBotService {
     private DataLoaderService dataLoaderService;
 
     private final String PROMPT_BLUEPRINT = """
-        This is the provided context :
-        {context}
-        
-        Answer me this query based only on
-        {query}
+      Answer the query strictly referring the provided context, only from information you find in there:
+      {context}
+      Query:
+      {query}
+      In case you don't have any answer from the context provided, just say STRICTLY:
+      I'm sorry I don't have the information you are looking for.
     """;
 
     public String chat(String query) {

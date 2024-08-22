@@ -34,12 +34,12 @@ public class DataLoaderService {
 
     // Load pdf from the pdfResource in DB.
     public void load() {
-        PagePdfDocumentReader pdfReader = new PagePdfDocumentReader(newcomersResource, PdfDocumentReaderConfig.builder().build());
+        PagePdfDocumentReader pdfReader = new PagePdfDocumentReader(shiftsResource, PdfDocumentReaderConfig.builder().build());
         vectorStore.add(pdfReader.get());
     }
 
     // Clear all pdfs from the collection.
     public void clear() {
-        mongoTemplate.getCollection("internal").deleteMany(new Document());
+        mongoTemplate.getCollection("vector_store").deleteMany(new Document());
     }
 }
