@@ -8,6 +8,7 @@ import org.springframework.ai.vectorstore.MongoDBAtlasVectorStore;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
@@ -33,18 +34,21 @@ public class DataLoaderService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    // Load pdf from the pdfResource in DB with adding file path.
-    public void loadWithFile(String file) {
-        PagePdfDocumentReader pdfReader = new PagePdfDocumentReader(file, PdfDocumentReaderConfig.builder().build());
-        vectorStore.add(pdfReader.get());
+    // Load PDFs from our hard coded classpath.
+    public void load() {
+        load("");
     }
 
-    // Load pdfs from resources/data
-    public void load() {
-        Resource[] resources = { thirdLevelResource, newcomersResource, shiftsResource };
+    // Load PDFs, flexible, from either hard coded classpath or user specified local path.
+    public void load(String file) {
+        Resource[] resources = file.isEmpty()
+                ? new Resource[]{thirdLevelResource, newcomersResource, shiftsResource}
+                : new Resource[]{new FileSystemResource(file)};
+
         for (Resource resource : resources) {
             var config = PdfDocumentReaderConfig.builder()
-                    .withPageExtractedTextFormatter(new ExtractedTextFormatter.Builder().withNumberOfBottomTextLinesToDelete(3)
+                    .withPageExtractedTextFormatter(new ExtractedTextFormatter.Builder()
+                            .withNumberOfBottomTextLinesToDelete(3)
                             .withNumberOfTopPagesToSkipBeforeDelete(1)
                             .build())
                     .withPagesPerDocument(1)
@@ -56,7 +60,7 @@ public class DataLoaderService {
         }
     }
 
-    // Clear all pdfs from the collection.
+    // Clear all PDFs from the collection.
     public void clear() {
         mongoTemplate.getCollection("internal").deleteMany(new Document());
     }
