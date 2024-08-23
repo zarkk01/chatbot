@@ -33,11 +33,13 @@ public class DataLoaderService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    // Load pdf from the pdfResource in DB.
-    public void loadwithfile(String file) {
+    // Load pdf from the pdfResource in DB with adding file path.
+    public void loadWithFile(String file) {
         PagePdfDocumentReader pdfReader = new PagePdfDocumentReader(file, PdfDocumentReaderConfig.builder().build());
         vectorStore.add(pdfReader.get());
     }
+
+    // Load pdfs from resources/data
     public void load() {
         Resource[] resources = { thirdLevelResource, newcomersResource, shiftsResource };
         for (Resource resource : resources) {

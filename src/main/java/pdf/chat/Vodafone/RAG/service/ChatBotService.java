@@ -46,7 +46,7 @@ public class ChatBotService {
         dataLoaderService.load();
     }
     public void load(String file) {
-        dataLoaderService.loadwithfile(file);
+        dataLoaderService.loadWithFile(file);
     }
 
     public void clear() {
