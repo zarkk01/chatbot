@@ -12,7 +12,7 @@ public class VodafoneRAGController {
     @Autowired
     private ChatBotService chatBotService;
 
-    // http://localhost:8080/chat?query=What is the github organization of ecommerce?
+    // http://localhost:8080/chat?query=What is the github organization of ecom?
     @GetMapping("/chat")
     public String chat(@RequestParam(name = "query") String query) {
         return chatBotService.chat(query);

@@ -1,7 +1,6 @@
 package pdf.chat.Vodafone.RAG.service;
 
 import java.util.List;
-
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.document.Document;
@@ -20,12 +19,16 @@ public class ChatBotService {
     private DataLoaderService dataLoaderService;
 
     private final String PROMPT_BLUEPRINT = """
-      Answer the query strictly referring the provided context, only from information you find in there:
-      {context}
-      Query:
-      {query}
-      In case you don't have any answer from the context provided, just say STRICTLY:
-      I'm sorry I don't have the information you are looking for.
+        You're assisting with questions about Vodafone's Confluence / Wiki.
+        \s
+        Use the information from the DOCUMENTS section to provide accurate answers but act as if you knew this information innately.
+        If unsure, simply state that you don't know.
+        \s
+        This is the question you have to answer based only on the information from DOCUMENTS sections:
+        {query}
+        \s
+        DOCUMENTS:
+        {context}
     """;
 
     public String chat(String query) {
@@ -39,8 +42,11 @@ public class ChatBotService {
         return promptTemplate.render();
     }
 
+    public void load() {
+        dataLoaderService.load();
+    }
     public void load(String file) {
-        dataLoaderService.load(file);
+        dataLoaderService.loadwithfile(file);
     }
 
     public void clear() {

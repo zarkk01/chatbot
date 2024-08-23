@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DataRetrievalService {
+    org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(DataRetrievalService.class);
+
     @Autowired
     private MongoDBAtlasVectorStore vectorStore;
-
-    org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(DataRetrievalService.class);
 
     public List<Document> searchData(String query) {
         List<Document> documents = vectorStore.similaritySearch(SearchRequest.defaults().withQuery(query).withTopK(2));
