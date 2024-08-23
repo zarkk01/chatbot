@@ -17,7 +17,6 @@ public class DataRetrievalService {
     public List<Document> searchData(String query) {
         List<Document> documents = vectorStore.similaritySearch(SearchRequest.defaults().withQuery(query).withTopK(2));
         logger.info(documents.toString());
-        //logger.info("SIMILARITY"+vectorStore.similaritySearch(String.valueOf(SearchRequest.defaults().withQuery(query).withTopK(2).getSimilarityThreshold())));
         return documents;
     }
 }
