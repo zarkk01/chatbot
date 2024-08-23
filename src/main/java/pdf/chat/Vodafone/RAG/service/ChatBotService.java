@@ -1,6 +1,5 @@
 package pdf.chat.Vodafone.RAG.service;
 
-
 import java.util.List;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.PromptTemplate;
@@ -20,13 +19,16 @@ public class ChatBotService {
     private DataLoaderService dataLoaderService;
 
     private final String PROMPT_BLUEPRINT = """
-        This is the provided context :
-        {context}
-        
-        Answer me this query based only on the provided context : 
+        You're assisting with questions about Vodafone's Confluence / Wiki.
+        \s
+        Use the information from the DOCUMENTS section to provide accurate answers but act as if you knew this information innately.
+        If unsure, simply state that you don't know.
+        \s
+        This is the question you have to answer based only on the information from DOCUMENTS sections:
         {query}
-        
-        If you don't have an answer based on the provided context, just answer "I don't have an answer based on this context." and stop there.
+        \s
+        DOCUMENTS:
+        {context}
     """;
 
     public String chat(String query) {
