@@ -28,6 +28,8 @@ public class DataLoaderService {
     @Value("classpath:/data/combinedAll.pdf")
     private Resource combinedAllResource;
 
+    private final String collection = System.getenv("COLLECTION_NAME");
+
     @Autowired
     public MongoDBAtlasVectorStore vectorStore;
 
@@ -62,6 +64,6 @@ public class DataLoaderService {
 
     // Clear all PDFs from the collection.
     public void clear() {
-        mongoTemplate.getCollection("internal").deleteMany(new Document());
+        mongoTemplate.getCollection(collection).deleteMany(new Document());
     }
 }
