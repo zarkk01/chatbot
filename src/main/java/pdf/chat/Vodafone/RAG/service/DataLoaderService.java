@@ -34,7 +34,7 @@ public class DataLoaderService {
     private MongoTemplate mongoTemplate;
 
     // Load pdf from the pdfResource in DB.
-    public void load(String file) {
+    public void loadwithfile(String file) {
         PagePdfDocumentReader pdfReader = new PagePdfDocumentReader(file, PdfDocumentReaderConfig.builder().build());
         vectorStore.add(pdfReader.get());
     }
