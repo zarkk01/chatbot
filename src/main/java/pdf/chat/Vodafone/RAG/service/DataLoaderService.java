@@ -50,14 +50,14 @@ public class DataLoaderService {
         for (Resource resource : resources) {
             var config = PdfDocumentReaderConfig.builder()
                     .withPageExtractedTextFormatter(new ExtractedTextFormatter.Builder()
-                            .withNumberOfBottomTextLinesToDelete(3)
-                            .withNumberOfTopPagesToSkipBeforeDelete(1)
+//                            .withNumberOfBottomTextLinesToDelete(3)
+//                            .withNumberOfTopPagesToSkipBeforeDelete(1)
                             .build())
                     .withPagesPerDocument(1)
                     .build();
 
             var pdfReader = new PagePdfDocumentReader(resource, config);
-            var textSplitter = new TokenTextSplitter();
+            var textSplitter = new TokenTextSplitter(800,0,0,1000,true);
             vectorStore.accept(textSplitter.apply(pdfReader.get()));
         }
     }
