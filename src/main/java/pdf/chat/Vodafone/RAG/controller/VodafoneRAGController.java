@@ -1,10 +1,7 @@
 package pdf.chat.Vodafone.RAG.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pdf.chat.Vodafone.RAG.service.ChatBotService;
 
 @RestController
@@ -28,7 +25,7 @@ public class VodafoneRAGController {
         }
     }
     // http://localhost:8080/clear
-    @PostMapping("/clear")
+    @DeleteMapping("/clear")
     public void clear() {
         chatBotService.clear();
     }
