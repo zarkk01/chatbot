@@ -44,7 +44,7 @@ public class DataLoaderService {
     // Load PDFs, flexible, from either hard coded classpath or user specified local path.
     public void load(String file) {
         Resource[] resources = file.isEmpty()
-                ? new Resource[]{newcomersResource, newcomersResource, shiftsResource}
+                ? new Resource[]{thirdLevelResource, newcomersResource , shiftsResource}
                 : new Resource[]{new FileSystemResource(file)};
 
         for (Resource resource : resources) {
