@@ -13,28 +13,31 @@ import org.springframework.core.io.Resource;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FilenameFilter;
+
 @Service
 public class DataLoaderService {
-    // Here we specify which pdf will be used.
-    @Value("${pdf.ThirdLevel.path}")
-    private Resource thirdLevelResource;
-
-    @Value("${pdf.Newcomers.path}")
-    private Resource newcomersResource;
-
-    @Value("${pdf.Shifts.path}")
-    private Resource shiftsResource;
-
-    @Value("${pdf.CombinedAll.path}")
-    private Resource combinedAllResource;
 
     private final String collection = System.getenv("COLLECTION_NAME");
-
+    private final String folder_path = System.getenv("FOLDER_PATH");
+    
     @Autowired
     public MongoDBAtlasVectorStore vectorStore;
 
     @Autowired
     private MongoTemplate mongoTemplate;
+
+    private Resource[] folderLoader() {
+        File folder = new File(folder_path);
+        File[] pdfFiles = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".pdf"));
+        Resource[] resources = new Resource[pdfFiles.length];
+        for (int i = 0; i < pdfFiles.length; i++) {
+            resources[i] = new FileSystemResource(pdfFiles[i]);
+        }
+
+        return resources;
+    }
 
     // Load PDFs from our hard coded classpath.
     public void load() {
@@ -44,7 +47,7 @@ public class DataLoaderService {
     // Load PDFs, flexible, from either hard coded classpath or user specified local path.
     public void load(String file) {
         Resource[] resources = file.isEmpty()
-                ? new Resource[]{thirdLevelResource, newcomersResource , shiftsResource}
+                ? resources = folderLoader()
                 : new Resource[]{new FileSystemResource(file)};
 
         for (Resource resource : resources) {
