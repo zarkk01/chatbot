@@ -1,11 +1,11 @@
-package pdf.chat.Vodafone.RAG;
+package pdf.chat.RAG;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class VodafoneRagApplication {
+public class RagApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(VodafoneRagApplication.class, args);
+		SpringApplication.run(RagApplication.class, args);
 	}
 }

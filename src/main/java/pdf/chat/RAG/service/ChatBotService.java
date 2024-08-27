@@ -1,4 +1,4 @@
-package pdf.chat.Vodafone.RAG.service;
+package pdf.chat.RAG.service;
 
 import java.util.List;
 import org.springframework.ai.chat.model.ChatModel;

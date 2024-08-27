@@ -1,4 +1,4 @@
-package pdf.chat.Vodafone.RAG.service;
+package pdf.chat.RAG.service;
 
 import org.springframework.ai.reader.ExtractedTextFormatter;
 import org.springframework.ai.reader.pdf.PagePdfDocumentReader;

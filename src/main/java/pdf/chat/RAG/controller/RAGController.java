@@ -1,15 +1,15 @@
-package pdf.chat.Vodafone.RAG.controller;
+package pdf.chat.RAG.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pdf.chat.Vodafone.RAG.service.ChatBotService;
+import pdf.chat.RAG.service.ChatBotService;
 
 @RestController
-public class VodafoneRAGController {
+public class RAGController {
 
-    private static final Logger logger = LoggerFactory.getLogger(VodafoneRAGController.class);
+    private static final Logger logger = LoggerFactory.getLogger(RAGController.class);
 
     @Autowired
     private ChatBotService chatBotService;
