@@ -15,7 +15,7 @@ public class DataRetrievalService {
     private MongoDBAtlasVectorStore vectorStore;
 
     public List<Document> searchData(String query) {
-        List<Document> documents = vectorStore.similaritySearch(SearchRequest.defaults().withQuery(query).withTopK(2));
+        List<Document> documents = vectorStore.similaritySearch(SearchRequest.defaults().withQuery(query).withTopK(4));
         logger.info(documents.toString());
         return documents;
     }
