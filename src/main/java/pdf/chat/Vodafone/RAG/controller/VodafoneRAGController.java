@@ -24,6 +24,7 @@ public class VodafoneRAGController {
             chatBotService.load(file);
         }
     }
+
     // http://localhost:8080/clear
     @DeleteMapping("/clear")
     public void clear() {

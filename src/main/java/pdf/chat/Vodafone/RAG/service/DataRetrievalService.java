@@ -14,6 +14,8 @@ public class DataRetrievalService {
     @Autowired
     private MongoDBAtlasVectorStore vectorStore;
 
+    // Perform a simility search on our vector database so to return the 5 most relevant Documents. On these Documents
+    // we will later perform the prompt to GPT.
     public List<Document> searchData(String query) {
         List<Document> documents = vectorStore.similaritySearch(SearchRequest.defaults().withQuery(query).withTopK(5));
         logger.info(documents.toString());
