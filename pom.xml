@@ -11,8 +11,8 @@
 	<groupId>pdf.chat</groupId>
 	<artifactId>RAG</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Vodafone-RAG</name>
-	<description>Vodafone RAG and chat with Wiki</description>
+	<name>pdfReading-RAG</name>
+	<description>Pdf Reading RAG and chat with Wiki</description>
 	<url/>
 	<licenses>
 		<license/>

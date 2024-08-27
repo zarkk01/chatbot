@@ -22,7 +22,7 @@ public class ChatBotService {
     private DataLoaderService dataLoaderService;
 
     private final String PROMPT_BLUEPRINT = """
-        You're assisting with questions about Vodafone's Confluence / Wiki.
+        You're assisting with questions about a Company's Confluence / Wiki.
         
         Use the information from the DOCUMENTS section to provide accurate answers but act as if you knew this information innately.
         If unsure, simply state that you don't know.
