@@ -49,10 +49,7 @@ public class DataLoaderService {
 
         for (Resource resource : resources) {
             var config = PdfDocumentReaderConfig.builder()
-                    .withPageExtractedTextFormatter(new ExtractedTextFormatter.Builder()
-                            .withNumberOfBottomTextLinesToDelete(3)
-                            .withNumberOfTopPagesToSkipBeforeDelete(1)
-                            .build())
+                    .withPageExtractedTextFormatter(new ExtractedTextFormatter.Builder().build())
                     .withPagesPerDocument(1)
                     .build();
 
