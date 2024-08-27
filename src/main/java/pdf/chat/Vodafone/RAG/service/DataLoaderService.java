@@ -16,16 +16,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class DataLoaderService {
     // Here we specify which pdf will be used.
-    @Value("classpath:/data/3rdLevel_1.pdf")
+    @Value("${pdf.ThirdLevel.path}")
     private Resource thirdLevelResource;
 
-    @Value("classpath:/data/Newcomers_1.pdf")
+    @Value("${pdf.Newcomers.path}")
     private Resource newcomersResource;
 
-    @Value("classpath:/data/Shifts_1.pdf")
+    @Value("${pdf.Shifts.path}")
     private Resource shiftsResource;
 
-    @Value("classpath:/data/combinedAll.pdf")
+    @Value("${pdf.CombinedAll.path}")
     private Resource combinedAllResource;
 
     private final String collection = System.getenv("COLLECTION_NAME");
