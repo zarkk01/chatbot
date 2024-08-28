@@ -21,7 +21,7 @@ public class DataRetrievalService {
         log.info("Performing similarity search with query: {}", query);
         List<Document> documents = vectorStore.similaritySearch(SearchRequest.defaults().withQuery(query).withTopK(5));
         log.info("Search returned {} documents", documents.size());
-        log.debug("Retrieved documents: {}", documents);
+        log.info("Retrieved documents: {}", documents.toString());
         return documents;
     }
 }
