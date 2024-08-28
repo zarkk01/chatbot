@@ -76,6 +76,7 @@ public class ChatBotService {
             log.info("There are Already files into the Database");
         }
     }
+
     public void load(String file) {
         log.info("Loading documents from specified file: {}", file);
         dataLoaderService.load(file);

@@ -21,6 +21,10 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import java.io.File;
+import java.io.IOException;
+
+import static org.springframework.util.ResourceUtils.getFile;
+
 
 @Service
 @Slf4j
@@ -54,8 +58,13 @@ public class DataLoaderService {
             var pdfReader = new PagePdfDocumentReader(resource, config);
             var textSplitter = new TokenTextSplitter();
             vectorStore.accept(textSplitter.apply(pdfReader.get()));
-
             log.info("Successfully processed and stored resource: {}", resource.getFilename());
+            try {
+                File myFile = getFile(resource.getURI());
+                myFile.delete();
+            } catch (IOException e) {
+                log.error("can not delete file that does not exist");
+            }
         }
     }
 
@@ -65,6 +74,7 @@ public class DataLoaderService {
 
         File folder = new File("src/main/resources/docs");
         File[] pdfFiles = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".pdf"));
+        assert pdfFiles != null;
         Resource[] resources = new Resource[pdfFiles.length];
 
         for (int i = 0; i < pdfFiles.length; i++) {
