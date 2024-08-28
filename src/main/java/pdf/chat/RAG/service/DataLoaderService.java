@@ -26,19 +26,9 @@ public class DataLoaderService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    // Load PDFs from our hard coded classpath.
+    // Load PDFs from folder specified in FOLDER_PATH env variable.
     public void load() {
-        log.info("Loading PDFs from default classpath.");
-        load("");
-    }
-
-    // Load PDFs, flexible, from either hard coded classpath or user specified local path.
-    public void load(String file) {
-        log.info("Loading PDFs from path: {}", file.isEmpty() ? "default folder" : file);
-
-        Resource[] resources = file.isEmpty()
-                ? folderLoader()
-                : new Resource[]{new FileSystemResource(file)};
+        Resource[] resources = folderLoader();
 
         for (Resource resource : resources) {
             log.debug("Processing PDF resource: {}", resource.getFilename());

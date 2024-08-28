@@ -25,14 +25,9 @@ public class RAGController {
 
     // http://localhost:8080/load
     @PostMapping("/load")
-    public void load(@RequestParam(name = "file", required = false) String file) {
-        if (file == null || file.isEmpty()) {
-            logger.info("Received load request with no file. Loading default.");
-            chatBotService.load();
-        } else {
-            logger.info("Received load request with file: {}", file);
-            chatBotService.load(file);
-        }
+    public void load() {
+        logger.info("Received load request.");
+        chatBotService.load();
         logger.info("Load process completed.");
     }
 

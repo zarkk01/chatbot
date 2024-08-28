@@ -52,13 +52,8 @@ public class ChatBotService {
     }
 
     public void load() {
-        log.info("Loading documents from default location.");
+        log.info("Loading documents from env variable set path folder location.");
         dataLoaderService.load();
-    }
-
-    public void load(String file) {
-        log.info("Loading documents from specified file: {}", file);
-        dataLoaderService.load(file);
     }
 
     public void clear() {
