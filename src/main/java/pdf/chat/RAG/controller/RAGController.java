@@ -26,7 +26,7 @@ public class RAGController {
     @Autowired
     private ChatBotService chatBotService;
 
-    // http://localhost:8080/chat?query=What is the github organization of ecom?
+    // http://localhost:8080/chat?query=What is the GitHub organization of ecom?
     @GetMapping("/chat")
     public String chat(@RequestParam(name = "query") String query) {
         logger.info("Received chat request with query: {}", query);
@@ -58,7 +58,12 @@ public class RAGController {
         logger.info("Clear process completed.");
     }
 
-//    TODO: delete pdf files after being inserted into DB
+    @PostMapping("/load")
+        public void loadHttp(@RequestParam(name = "file") String file) {
+        chatBotService.load(file);
+    }
+
+//    delete pdf files after being inserted into DB  done
 //    TODO: use in memory(explore)
 //    TODO: implement function calling
 //    TODO: fix Streaming in response

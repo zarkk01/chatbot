@@ -21,6 +21,10 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import java.io.File;
+import java.io.IOException;
+
+import static org.springframework.util.ResourceUtils.getFile;
+
 
 @Service
 @Slf4j
@@ -33,10 +37,16 @@ public class DataLoaderService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    // Load PDFs from folder specified in FOLDER_PATH env variable.
     public void load() {
-        Resource[] resources = folderLoader();
+        log.info("Loading PDFs from default classpath.");
+        load("");
+    }
 
+    // Load PDFs
+    public void load(String file) {
+        Resource[] resources = file.isEmpty()
+                ? folderLoader()
+                : new Resource[]{new FileSystemResource(file)};
         for (Resource resource : resources) {
             log.debug("Processing PDF resource: {}", resource.getFilename());
 
@@ -48,8 +58,22 @@ public class DataLoaderService {
             var pdfReader = new PagePdfDocumentReader(resource, config);
             var textSplitter = new TokenTextSplitter();
             vectorStore.accept(textSplitter.apply(pdfReader.get()));
-
             log.info("Successfully processed and stored resource: {}", resource.getFilename());
+            if(file.isEmpty()) {
+                deleteFile(resource);
+            }
+
+        }
+    }
+
+    // Helper method to convert files from Resource to File type and then delete them
+    private void deleteFile(Resource resource) {
+        try {
+            File myFile = getFile(resource.getURI());
+            myFile.delete();
+            log.info("Successfully deleted file: {}", myFile.getCanonicalPath());
+        } catch (IOException e) {
+            log.error("Can not delete file that does not exist");
         }
     }
 
@@ -59,6 +83,7 @@ public class DataLoaderService {
 
         File folder = new File("src/main/resources/docs");
         File[] pdfFiles = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".pdf"));
+        assert pdfFiles != null;
         Resource[] resources = new Resource[pdfFiles.length];
 
         for (int i = 0; i < pdfFiles.length; i++) {
@@ -67,6 +92,8 @@ public class DataLoaderService {
         }
         return resources;
     }
+
+
 
     // Clear all PDFs from the collection.
     public void clear() {
