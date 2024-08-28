@@ -9,12 +9,15 @@ package pdf.chat.RAG.service;
 
 
 import java.util.List;
+
+import com.mongodb.client.MongoClient;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.document.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.mongodb.core.*;
 
 @Service
 @Slf4j
@@ -29,6 +32,9 @@ public class ChatBotService {
     @Autowired
     private DataLoaderService dataLoaderService;
 
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
     private final String PROMPT_BLUEPRINT = """
         You're assisting with questions about a Company's Confluence / Wiki.
         
@@ -41,6 +47,8 @@ public class ChatBotService {
         DOCUMENTS:
         {context}
     """;
+    @Autowired
+    private MongoClient mongo;
 
     public String chat(String query) {
         log.info("Received chat request with query: {}", query);
@@ -59,9 +67,14 @@ public class ChatBotService {
         return renderedPrompt;
     }
 
+//    TODO implement logic to check which file are already inserted into DB and which are not
     public void load() {
-        log.info("Loading documents from env variable set path folder location.");
-        dataLoaderService.load();
+        if(mongoTemplate.getCollection("vector_store").countDocuments()==0) {
+            log.info("Loading documents from env variable set path folder location.");
+            dataLoaderService.load();
+        }else {
+            log.info("There are Already files into the Database");
+        }
     }
 
     public void clear() {

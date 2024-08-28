@@ -26,7 +26,6 @@ import java.io.File;
 @Slf4j
 public class DataLoaderService {
     private final String collection = System.getenv("COLLECTION_NAME");
-    private final String folder_path = System.getenv("FOLDER_PATH");
 
     @Autowired
     public MongoDBAtlasVectorStore vectorStore;
@@ -56,9 +55,9 @@ public class DataLoaderService {
 
     // Find all PDF files from given folder path.
     private Resource[] folderLoader() {
-        log.info("Loading all PDF files from folder: {}", folder_path);
+        log.info("Loading all PDF files from folder: {}", "src/main/resources/docs");
 
-        File folder = new File(folder_path);
+        File folder = new File("src/main/resources/docs");
         File[] pdfFiles = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".pdf"));
         Resource[] resources = new Resource[pdfFiles.length];
 

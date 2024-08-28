@@ -7,6 +7,7 @@ package pdf.chat.RAG.controller;
 //        |  |-'  `---'`--'   `--'    `----' `--`--' `---' `----'`--'    `--'   `--`--'.`-  /
 //        `--'                                                                         `---'
 
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +32,11 @@ public class RAGController {
     }
 
     // http://localhost:8080/load
-    //TODO: check if db is empty before loading data
+    //check if db is empty before loading data  done
     //TODO: POST request should be implemented with http client
     //TODO: the endpoint "load Document" will use a POST request with http and post a pdf to get tokenized kai loaded to db
-    //TODO: replace @PostMapping with @PostConstruct
-    @PostMapping("/load")
+    //replace @PostMapping with @PostConstruct  done
+    @PostConstruct()
     public void load() {
         logger.info("Received load request.");
         chatBotService.load();
@@ -50,7 +51,7 @@ public class RAGController {
         logger.info("Clear process completed.");
     }
 
-//    TODO: delete to file afou apothikeutei stin db
+//    TODO: delete pdf files after being inserted into DB
 //    TODO: use in memory(explore)
 //    TODO: implement function calling
 //    TODO: fix Streaming in response
