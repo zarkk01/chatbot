@@ -27,9 +27,9 @@ public class DataRetrievalService {
     // These Documents will later be used to perform the prompt to GPT.
     public List<Document> searchData(String query) {
         log.info("Performing similarity search with query: {}", query);
-        List<Document> documents = vectorStore.similaritySearch(SearchRequest.defaults().withQuery(query).withTopK(5));
+        List<Document> documents = vectorStore.similaritySearch(SearchRequest.defaults().withQuery(query).withTopK(2));
         log.info("Search returned {} documents", documents.size());
-        log.info("Retrieved documents: {}", documents.toString());
+        log.info("Search returned {}", documents);
         return documents;
     }
 }
