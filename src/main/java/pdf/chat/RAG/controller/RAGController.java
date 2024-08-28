@@ -31,6 +31,9 @@ public class RAGController {
     }
 
     // http://localhost:8080/load
+//    TODO otan sikwnetai i efarmogi tsekarw an i basi einai adeia an nai load oti briskei sto directory an oxi den kanei tipota
+//    .. endpoint  "load DOcument" :POST me http tha dinoume ena pdf to opoio tha ginetai tokenize kai load stin vasi
+//    @PostConstruct
     @PostMapping("/load")
     public void load() {
         logger.info("Received load request.");
@@ -39,10 +42,17 @@ public class RAGController {
     }
 
     // http://localhost:8080/clear
-    @DeleteMapping("/clear")
+    @PostMapping("/clear")
     public void clear() {
         logger.info("Received clear request.");
         chatBotService.clear();
         logger.info("Clear process completed.");
     }
+
+//    TODO
+//    delete to file afou apothikeutei stin db
+//    in memory(explore)
+//    function calling
+//    !! Streaming
+
 }
