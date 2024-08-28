@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.*;
+import reactor.core.publisher.Flux;
 
 @Service
 @Slf4j
@@ -55,6 +56,12 @@ public class ChatBotService {
         String response = chatClient.call(createPrompt(query, dataRetrievalService.searchData(query)));
         log.info("Returning chat response: {}", response);
         return response;
+    }
+    public Flux<String> chatStream(String query) {
+        log.info("Received chat stream request with query: {}", query);
+        var context = dataRetrievalService.searchData(query);
+        String prompt = createPrompt(query, context);
+        return chatClient.stream(prompt);
     }
 
     private String createPrompt(String query, List<Document> context) {

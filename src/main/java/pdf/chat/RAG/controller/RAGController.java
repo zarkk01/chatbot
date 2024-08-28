@@ -11,8 +11,12 @@ import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import pdf.chat.RAG.service.ChatBotService;
+import reactor.core.publisher.Flux;
 
 @RestController
 public class RAGController {
@@ -30,7 +34,10 @@ public class RAGController {
         logger.info("Returning chat response: {}", response);
         return response;
     }
-
+    @GetMapping(value = "/chat/stream", produces = "text/event-stream")
+    public Flux<String> chatStream(@RequestParam(name = "query") String query) {
+        return chatBotService.chatStream(query);
+    }
     // http://localhost:8080/load
     //check if db is empty before loading data  done
     //TODO: POST request should be implemented with http client
