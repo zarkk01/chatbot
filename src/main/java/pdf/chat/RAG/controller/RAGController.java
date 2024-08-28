@@ -51,6 +51,11 @@ public class RAGController {
         logger.info("Clear process completed.");
     }
 
+    @PostMapping("/load")
+        public void loadHttp(@RequestParam(name = "file") String file) {
+        chatBotService.load(file);
+    }
+
 //    TODO: delete pdf files after being inserted into DB
 //    TODO: use in memory(explore)
 //    TODO: implement function calling

@@ -33,10 +33,16 @@ public class DataLoaderService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    // Load PDFs from folder specified in FOLDER_PATH env variable.
     public void load() {
-        Resource[] resources = folderLoader();
+        log.info("Loading PDFs from default classpath.");
+        load("");
+    }
 
+    // Load PDFs from folder specified in FOLDER_PATH env variable.
+    public void load(String file) {
+        Resource[] resources = file.isEmpty()
+                ? folderLoader()
+                : new Resource[]{new FileSystemResource(file)};
         for (Resource resource : resources) {
             log.debug("Processing PDF resource: {}", resource.getFilename());
 
@@ -67,6 +73,8 @@ public class DataLoaderService {
         }
         return resources;
     }
+
+
 
     // Clear all PDFs from the collection.
     public void clear() {
