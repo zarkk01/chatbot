@@ -9,43 +9,31 @@ package pdf.chat.RAG.service;
 
 
 import java.util.List;
-import java.util.UUID;
 
-import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
-import org.springframework.ai.chat.client.advisor.PromptChatMemoryAdvisor;
-import org.springframework.ai.chat.memory.InMemoryChatMemory;
+import com.mongodb.client.MongoClient;
+import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.document.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
-import pdf.chat.RAG.model.QueryRequest;
-
-import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY;
-import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_RETRIEVE_SIZE_KEY;
+import org.springframework.data.mongodb.core.*;
 
 @Service
 @Slf4j
 public class ChatBotService {
+
+    @Autowired
+    private ChatModel chatClient;
+
     @Autowired
     private DataRetrievalService dataRetrievalService;
 
     @Autowired
     private DataLoaderService dataLoaderService;
 
-    private final ChatClient chatClient;
-    private String lastConversationId;
-
-    public ChatBotService(ChatClient.Builder builder) {
-        InMemoryChatMemory memory = new InMemoryChatMemory();
-        this.chatClient = builder.
-                defaultAdvisors(
-                        new PromptChatMemoryAdvisor(memory),
-                        new MessageChatMemoryAdvisor(memory)
-                )
-                .build();
-    }
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     private final String PROMPT_BLUEPRINT = """
         You're assisting with questions about a Company's Confluence / Wiki.
@@ -59,24 +47,13 @@ public class ChatBotService {
         DOCUMENTS:
         {context}
     """;
+    @Autowired
+    private MongoClient mongo;
 
     public String chat(String query) {
-        QueryRequest queryRequest = new QueryRequest();
-        queryRequest.setQuery(query);
-        if (lastConversationId == null) {
-            queryRequest.setConversationId(UUID.randomUUID().toString());
-            lastConversationId = queryRequest.getConversationId();
-        } else {
-            queryRequest.setConversationId(lastConversationId);
-        }
-
-        String prompt = createPrompt(query, dataRetrievalService.searchData(query));
-        String response = this.chatClient.prompt().user(prompt)
-                .advisors(a -> a
-                        .param(CHAT_MEMORY_CONVERSATION_ID_KEY, queryRequest.getConversationId())
-                        .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
-                .call().content();
-
+        log.info("Received chat request with query: {}", query);
+        String response = chatClient.call(createPrompt(query, dataRetrievalService.searchData(query)));
+        log.info("Returning chat response: {}", response);
         return response;
     }
 
@@ -90,9 +67,14 @@ public class ChatBotService {
         return renderedPrompt;
     }
 
+//    TODO implement logic to check which file are already inserted into DB and which are not
     public void load() {
-        log.info("Loading documents from env variable set path folder location.");
-        dataLoaderService.load();
+        if(mongoTemplate.getCollection("vector_store").countDocuments()==0) {
+            log.info("Loading documents from env variable set path folder location.");
+            dataLoaderService.load();
+        }else {
+            log.info("There are Already files into the Database");
+        }
     }
 
     public void clear() {
