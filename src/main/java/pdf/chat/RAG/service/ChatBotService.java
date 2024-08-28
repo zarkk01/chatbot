@@ -9,25 +9,43 @@ package pdf.chat.RAG.service;
 
 
 import java.util.List;
-import org.springframework.ai.chat.model.ChatModel;
+import java.util.UUID;
+
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.PromptChatMemoryAdvisor;
+import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.document.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
+import pdf.chat.RAG.model.QueryRequest;
+
+import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY;
+import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_RETRIEVE_SIZE_KEY;
 
 @Service
 @Slf4j
 public class ChatBotService {
-
-    @Autowired
-    private ChatModel chatClient;
-
     @Autowired
     private DataRetrievalService dataRetrievalService;
 
     @Autowired
     private DataLoaderService dataLoaderService;
+
+    private final ChatClient chatClient;
+    private String lastConversationId;
+
+    public ChatBotService(ChatClient.Builder builder) {
+        InMemoryChatMemory memory = new InMemoryChatMemory();
+        this.chatClient = builder.
+                defaultAdvisors(
+                        new PromptChatMemoryAdvisor(memory),
+                        new MessageChatMemoryAdvisor(memory)
+                )
+                .build();
+    }
 
     private final String PROMPT_BLUEPRINT = """
         You're assisting with questions about a Company's Confluence / Wiki.
@@ -43,9 +61,22 @@ public class ChatBotService {
     """;
 
     public String chat(String query) {
-        log.info("Received chat request with query: {}", query);
-        String response = chatClient.call(createPrompt(query, dataRetrievalService.searchData(query)));
-        log.info("Returning chat response: {}", response);
+        QueryRequest queryRequest = new QueryRequest();
+        queryRequest.setQuery(query);
+        if (lastConversationId == null) {
+            queryRequest.setConversationId(UUID.randomUUID().toString());
+            lastConversationId = queryRequest.getConversationId();
+        } else {
+            queryRequest.setConversationId(lastConversationId);
+        }
+
+        String prompt = createPrompt(query, dataRetrievalService.searchData(query));
+        String response = this.chatClient.prompt().user(prompt)
+                .advisors(a -> a
+                        .param(CHAT_MEMORY_CONVERSATION_ID_KEY, queryRequest.getConversationId())
+                        .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
+                .call().content();
+
         return response;
     }
 
