@@ -31,9 +31,10 @@ public class RAGController {
     }
 
     // http://localhost:8080/load
-//    TODO otan sikwnetai i efarmogi tsekarw an i basi einai adeia an nai load oti briskei sto directory an oxi den kanei tipota
-//    .. endpoint  "load DOcument" :POST me http tha dinoume ena pdf to opoio tha ginetai tokenize kai load stin vasi
-//    @PostConstruct
+    //TODO: check if db is empty before loading data
+    //TODO: POST request should be implemented with http client
+    //TODO: the endpoint "load Document" will use a POST request with http and post a pdf to get tokenized kai loaded to db
+    //TODO: replace @PostMapping with @PostConstruct
     @PostMapping("/load")
     public void load() {
         logger.info("Received load request.");
@@ -49,10 +50,9 @@ public class RAGController {
         logger.info("Clear process completed.");
     }
 
-//    TODO
-//    delete to file afou apothikeutei stin db
-//    in memory(explore)
-//    function calling
-//    !! Streaming
+//    TODO: delete to file afou apothikeutei stin db
+//    TODO: use in memory(explore)
+//    TODO: implement function calling
+//    TODO: fix Streaming in response
 
 }
