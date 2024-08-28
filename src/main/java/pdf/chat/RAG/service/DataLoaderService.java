@@ -42,7 +42,7 @@ public class DataLoaderService {
         load("");
     }
 
-    // Load PDFs from folder specified in FOLDER_PATH env variable.
+    // Load PDFs
     public void load(String file) {
         Resource[] resources = file.isEmpty()
                 ? folderLoader()
@@ -59,12 +59,21 @@ public class DataLoaderService {
             var textSplitter = new TokenTextSplitter();
             vectorStore.accept(textSplitter.apply(pdfReader.get()));
             log.info("Successfully processed and stored resource: {}", resource.getFilename());
-            try {
-                File myFile = getFile(resource.getURI());
-                myFile.delete();
-            } catch (IOException e) {
-                log.error("can not delete file that does not exist");
+            if(file.isEmpty()) {
+                deleteFile(resource);
             }
+
+        }
+    }
+
+    // Helper method to convert files from Resource to File type and then delete them
+    private void deleteFile(Resource resource) {
+        try {
+            File myFile = getFile(resource.getURI());
+            myFile.delete();
+            log.info("Successfully deleted file: {}", myFile.getCanonicalPath());
+        } catch (IOException e) {
+            log.error("Can not delete file that does not exist");
         }
     }
 
