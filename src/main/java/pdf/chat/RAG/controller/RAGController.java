@@ -27,7 +27,7 @@ public class RAGController {
     @Autowired
     private ChatBotService chatBotService;
 
-    // http://localhost:8080/chat?query=What is the GitHub organization of ecom?
+    // http://localhost:8080/chat/stream?query=What is the phone number of Nikolas Kiamilis?
     @GetMapping("/chat")
     public String chat(@RequestParam(name = "query") String query) {
         logger.info("Received chat request with query: {}", query);
