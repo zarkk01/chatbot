@@ -7,7 +7,6 @@ package pdf.chat.RAG.service;
 //        |  |-'  `---'`--'   `--'    `----' `--`--' `---' `----'`--'    `--'   `--`--'.`-  /
 //        `--'                                                                         `---'
 
-
 import org.springframework.ai.reader.ExtractedTextFormatter;
 import org.springframework.ai.reader.pdf.PagePdfDocumentReader;
 import org.springframework.ai.reader.pdf.config.PdfDocumentReaderConfig;
@@ -47,6 +46,7 @@ public class DataLoaderService {
         Resource[] resources = file.isEmpty()
                 ? folderLoader()
                 : new Resource[]{new FileSystemResource(file)};
+
         for (Resource resource : resources) {
             log.debug("Processing PDF resource: {}", resource.getFilename());
 
@@ -58,11 +58,12 @@ public class DataLoaderService {
             var pdfReader = new PagePdfDocumentReader(resource, config);
             var textSplitter = new TokenTextSplitter();
             vectorStore.accept(textSplitter.apply(pdfReader.get()));
+
             log.info("Successfully processed and stored resource: {}", resource.getFilename());
+
             if(file.isEmpty()) {
                 deleteFile(resource);
             }
-
         }
     }
 
@@ -71,6 +72,7 @@ public class DataLoaderService {
         try {
             File myFile = getFile(resource.getURI());
             myFile.delete();
+
             log.info("Successfully deleted file: {}", myFile.getCanonicalPath());
         } catch (IOException e) {
             log.error("Can not delete file that does not exist");
@@ -90,10 +92,9 @@ public class DataLoaderService {
             resources[i] = new FileSystemResource(pdfFiles[i]);
             log.debug("Found PDF file: {}", pdfFiles[i].getName());
         }
+
         return resources;
     }
-
-
 
     // Clear all PDFs from the collection.
     public void clear() {

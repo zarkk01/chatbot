@@ -19,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class DataRetrievalService {
-
     @Autowired
     private MongoDBAtlasVectorStore vectorStore;
 
@@ -28,7 +27,6 @@ public class DataRetrievalService {
     public List<Document> searchData(String query) {
         log.info("Performing similarity search with query: {}", query);
         List<Document> documents = vectorStore.similaritySearch(SearchRequest.defaults().withQuery(query).withTopK(2));
-        log.info("Search returned {} documents", documents.size());
         log.info("Search returned {}", documents);
         return documents;
     }

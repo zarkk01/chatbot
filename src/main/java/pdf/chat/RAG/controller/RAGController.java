@@ -20,7 +20,6 @@ import reactor.core.publisher.Flux;
 
 @RestController
 public class RAGController {
-
     private static final Logger logger = LoggerFactory.getLogger(RAGController.class);
 
     @Autowired
@@ -34,20 +33,27 @@ public class RAGController {
         logger.info("Returning chat response: {}", response);
         return response;
     }
+
     @GetMapping(value = "/chat/stream", produces = "text/event-stream")
     public Flux<String> chatStream(@RequestParam(name = "query") String query) {
         return chatBotService.chatStream(query);
     }
+
     // http://localhost:8080/load
-    //check if db is empty before loading data  done
     //TODO: POST request should be implemented with http client
     //TODO: the endpoint "load Document" will use a POST request with http and post a pdf to get tokenized kai loaded to db
-    //replace @PostMapping with @PostConstruct  done
     @PostConstruct()
     public void load() {
         logger.info("Received load request.");
         chatBotService.load();
         logger.info("Load process completed.");
+    }
+
+    @PostMapping("/load")
+    public void loadHttp(@RequestParam(name = "file") String file) {
+        logger.info("Received load request for file.");
+        chatBotService.load(file);
+        logger.info("Load process completed for file.");
     }
 
     // http://localhost:8080/clear
@@ -57,15 +63,4 @@ public class RAGController {
         chatBotService.clear();
         logger.info("Clear process completed.");
     }
-
-    @PostMapping("/load")
-        public void loadHttp(@RequestParam(name = "file") String file) {
-        chatBotService.load(file);
-    }
-
-//    delete pdf files after being inserted into DB  done
-//    TODO: use in memory(explore)
-//    TODO: implement function calling
-//    TODO: fix Streaming in response
-
 }

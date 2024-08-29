@@ -23,6 +23,7 @@ import reactor.core.publisher.Flux;
 @Service
 @Slf4j
 public class ChatBotService {
+    private final String collection = System.getenv("COLLECTION_NAME");
 
     @Autowired
     private ChatModel chatClient;
@@ -57,6 +58,7 @@ public class ChatBotService {
         log.info("Returning chat response: {}", response);
         return response;
     }
+
     public Flux<String> chatStream(String query) {
         log.info("Received chat stream request with query: {}", query);
         var context = dataRetrievalService.searchData(query);
@@ -76,10 +78,10 @@ public class ChatBotService {
 
 //    TODO implement logic to check which file are already inserted into DB and which are not
     public void load() {
-        if(mongoTemplate.getCollection("vector_store").countDocuments()==0) {
+        if (mongoTemplate.getCollection(collection).countDocuments() == 0) {
             log.info("Loading documents from env variable set path folder location.");
             dataLoaderService.load();
-        }else {
+        } else {
             log.info("There are Already files into the Database");
         }
     }
