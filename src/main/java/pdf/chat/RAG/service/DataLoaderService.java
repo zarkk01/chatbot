@@ -16,11 +16,13 @@ import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 import static org.springframework.util.ResourceUtils.getFile;
 
@@ -36,16 +38,16 @@ public class DataLoaderService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public void load() {
+    public void load() throws MalformedURLException {
         log.info("Loading PDFs from default classpath.");
         load("");
     }
 
     // Load PDFs
-    public void load(String file) {
+    public void load(String file) throws MalformedURLException {
         Resource[] resources = file.isEmpty()
                 ? folderLoader()
-                : new Resource[]{new FileSystemResource(file)};
+                : new Resource[]{new UrlResource(file)};
 
         for (Resource resource : resources) {
             log.debug("Processing PDF resource: {}", resource.getFilename());

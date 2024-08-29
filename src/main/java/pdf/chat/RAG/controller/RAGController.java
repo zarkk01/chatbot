@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import pdf.chat.RAG.service.ChatBotService;
 import reactor.core.publisher.Flux;
 
+import java.net.MalformedURLException;
+
 @RestController
 public class RAGController {
     private static final Logger logger = LoggerFactory.getLogger(RAGController.class);
@@ -40,17 +42,16 @@ public class RAGController {
     }
 
     // http://localhost:8080/load
-    //TODO: POST request should be implemented with http client
-    //TODO: the endpoint "load Document" will use a POST request with http and post a pdf to get tokenized kai loaded to db
     @PostConstruct()
-    public void load() {
+    public void load() throws MalformedURLException {
         logger.info("Received load request.");
         chatBotService.load();
         logger.info("Load process completed.");
     }
 
+    // http://localhost:8080/load
     @PostMapping("/load")
-    public void loadHttp(@RequestParam(name = "file") String file) {
+    public void loadHttp(@RequestParam(name = "file") String file) throws MalformedURLException {
         logger.info("Received load request for file.");
         chatBotService.load(file);
         logger.info("Load process completed for file.");

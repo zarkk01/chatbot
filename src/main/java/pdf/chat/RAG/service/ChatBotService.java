@@ -8,6 +8,7 @@ package pdf.chat.RAG.service;
 //        `--'                                                                         `---'
 
 
+import java.net.MalformedURLException;
 import java.util.List;
 
 import com.mongodb.client.MongoClient;
@@ -77,7 +78,7 @@ public class ChatBotService {
     }
 
 //    TODO implement logic to check which file are already inserted into DB and which are not
-    public void load() {
+    public void load() throws MalformedURLException {
         if (mongoTemplate.getCollection(collection).countDocuments() == 0) {
             log.info("Loading documents from env variable set path folder location.");
             dataLoaderService.load();
@@ -86,7 +87,7 @@ public class ChatBotService {
         }
     }
 
-    public void load(String file) {
+    public void load(String file) throws MalformedURLException {
         log.info("Loading documents from specified file: {}", file);
         dataLoaderService.load(file);
     }
