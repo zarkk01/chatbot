@@ -1,15 +1,7 @@
 package pdf.chat.RAG.service;
 
-//                                                    ,--.
-//        ,---.  ,-|  /  .-' ,--.--. ,---.  ,--,--. ,-|  |,---. ,--.--. ,--.--.,--,--. ,---.
-//        | .-. |' .-. |  `-, |  .--'| .-. :' ,-.  |' .-. | .-. :|  .--' |  .--' ,-.  || .-. |
-//        | '-' '\ `-' |  .-' |  |   \   --.\ '-'  |\ `-' \   --.|  |    |  |  \ '-'  |' '-' '
-//        |  |-'  `---'`--'   `--'    `----' `--`--' `---' `----'`--'    `--'   `--`--'.`-  /
-//        `--'                                                                         `---'
-
 import java.net.MalformedURLException;
 import java.util.List;
-import com.mongodb.client.MongoClient;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.document.Document;
@@ -48,8 +40,6 @@ public class ChatBotService {
         DOCUMENTS:
         {context}
     """;
-    @Autowired
-    private MongoClient mongo;
 
     public String chat(String query) {
         log.info("Received chat request with query: {}", query);
@@ -79,13 +69,19 @@ public class ChatBotService {
             log.info("Loading documents from env variable set path folder location.");
             dataLoaderService.load();
         } else {
-            log.info("There are already files into the Database");
+            log.info("There are already files into the Database.");
         }
     }
 
     public void load(String file) throws MalformedURLException {
         log.info("Loading documents from specified file: {}", file);
-        dataLoaderService.load(file);
+        if (file == null || file.isEmpty()) {
+            log.info("Loading documents from whatever is in env variable.");
+            dataLoaderService.load();
+        } else {
+            log.info("Loading documents from specified file: {}", file);
+            dataLoaderService.load(file);
+        }
     }
 
     public void clear() {

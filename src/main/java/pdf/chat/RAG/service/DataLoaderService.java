@@ -1,12 +1,5 @@
 package pdf.chat.RAG.service;
 
-//                                                    ,--.
-//        ,---.  ,-|  /  .-' ,--.--. ,---.  ,--,--. ,-|  |,---. ,--.--. ,--.--.,--,--. ,---.
-//        | .-. |' .-. |  `-, |  .--'| .-. :' ,-.  |' .-. | .-. :|  .--' |  .--' ,-.  || .-. |
-//        | '-' '\ `-' |  .-' |  |   \   --.\ '-'  |\ `-' \   --.|  |    |  |  \ '-'  |' '-' '
-//        |  |-'  `---'`--'   `--'    `----' `--`--' `---' `----'`--'    `--'   `--`--'.`-  /
-//        `--'                                                                         `---'
-
 import org.springframework.ai.reader.ExtractedTextFormatter;
 import org.springframework.ai.reader.pdf.PagePdfDocumentReader;
 import org.springframework.ai.reader.pdf.config.PdfDocumentReaderConfig;
@@ -41,7 +34,7 @@ public class DataLoaderService {
         load("");
     }
 
-    // Load PDFs
+    // Load PDFs either from specified file from http(s) or from the docs folder in the resources.
     public void load(String file) throws MalformedURLException {
         Resource[] resources = file.isEmpty()
                 ? folderLoader()

@@ -1,16 +1,9 @@
 package pdf.chat.RAG.controller;
 
-//                                                    ,--.
-//        ,---.  ,-|  /  .-' ,--.--. ,---.  ,--,--. ,-|  |,---. ,--.--. ,--.--.,--,--. ,---.
-//        | .-. |' .-. |  `-, |  .--'| .-. :' ,-.  |' .-. | .-. :|  .--' |  .--' ,-.  || .-. |
-//        | '-' '\ `-' |  .-' |  |   \   --.\ '-'  |\ `-' \   --.|  |    |  |  \ '-'  |' '-' '
-//        |  |-'  `---'`--'   `--'    `----' `--`--' `---' `----'`--'    `--'   `--`--'.`-  /
-//        `--'                                                                         `---'
-
 import jakarta.annotation.PostConstruct;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,49 +13,94 @@ import reactor.core.publisher.Flux;
 import java.net.MalformedURLException;
 
 @RestController
+@Slf4j
 public class RAGController {
-    private static final Logger logger = LoggerFactory.getLogger(RAGController.class);
-
     @Autowired
     private ChatBotService chatBotService;
 
-    // http://localhost:8080/chat?query=What is the phone number of Nikolas Kiamilis?
-    @GetMapping("/chat")
-    public String chat(@RequestParam(name = "query") String query) {
-        logger.info("Received chat request with query: {}", query);
-        String response = chatBotService.chat(query);
-        logger.info("Returning chat response: {}", response);
-        return response;
+    /**
+     * Initializes the controller by loading initial data.
+     * This method runs after the bean's properties have been set.
+     *
+     * @throws MalformedURLException if the data source URL is malformed but during init NO URL will be given,
+     * so it's okay.
+     */
+    @PostConstruct
+    public void init() throws MalformedURLException {
+        log.info("Received load request.");
+        chatBotService.load();
+        log.info("Load process completed.");
     }
 
-    // http://localhost:8080/chat/stream?query=What is the phone number of Nikolas Kiamilis?
+    /**
+     * Handles a chat request with a given query.
+     * Example GET request with query : http://localhost:8080/chat?query=What is the
+     * phone number of Nikolas Kiamilis?
+     *
+     * @param query the query to be processed by our chat service
+     * @return the chat response
+     */
+    @GetMapping("/chat")
+    public ResponseEntity<String> chat(@RequestParam(name = "query") String query) {
+        log.info("Received chat request with query: {}", query);
+        String response = chatBotService.chat(query);
+        log.info("Returning chat response: {}", response);
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Handles a chat stream request with a given query and return the response as a stream.
+     * Example GET request with query : http://localhost:8080/chat?query=What is the
+     * phone number of Nikolas Kiamilis?
+     *
+     * @param query the query to be processed by our chat service
+     * @return a stream of chat responses
+     */
     @GetMapping(value = "/chat/stream", produces = "text/event-stream")
     public Flux<String> chatStream(@RequestParam(name = "query") String query) {
+        log.info("Received chat request for streaming response with query: {}", query);
         return chatBotService.chatStream(query);
     }
 
-    // http://localhost:8080/load
-    @PostConstruct()
+    /**
+     * Loads data from a specified file URL or performs a default load if no file is provided.
+     * When you want to load whatever PDF is in docs, you send this POST request : http://localhost:8080/load .
+     * When you want to specify which PDF to load from HTTP(s), you send a POST request like this :
+     * http://localhost:8080/load?file=https://www.newitalianbooks.it/wp-content/uploads/2020/05/CristianoRonaldo.pdf
+     *
+     * @param file the optional URL of the file to load
+     * @throws MalformedURLException if the provided file URL is malformed
+     */
     @PostMapping("/load")
-    public void load() throws MalformedURLException {
-        logger.info("Received load request.");
-        chatBotService.load();
-        logger.info("Load process completed.");
+    public ResponseEntity<String> load(@RequestParam(name = "file", required = false) String file) throws MalformedURLException {
+        try {
+            if (file == null) {
+                log.info("No file specified, performing default load meaning will load whatever is in docs file.");
+                chatBotService.load("");
+            } else {
+                log.info("Received load request for PDF in HTTP(s): {}", file);
+                chatBotService.load(file);
+                log.info("Load process completed for PDF in HTTP(s): {}", file);
+            }
+            return ResponseEntity.ok("Load process completed successfully.");
+        } catch (MalformedURLException e) {
+            log.error("Malformed URL: {}", e.getMessage());
+            return ResponseEntity.badRequest().body("Invalid URL provided.");
+        }
     }
 
-    // http://localhost:8080/loadHttp?file=https://www.newitalianbooks.it/wp-content/uploads/2020/05/CristianoRonaldo.pdf
-    @PostMapping("/loadHttp")
-    public void loadHttp(@RequestParam(name = "file") String file) throws MalformedURLException {
-        logger.info("Received load request for file.");
-        chatBotService.load(file);
-        logger.info("Load process completed for file.");
-    }
-
-    // http://localhost:8080/clear
+    /**
+     * Clears all data from the database, meaning all PDFs stored there will disappear.
+     * Use with caution!
+     * Example POST request : http://localhost:8080/clear
+     *
+     * @return a response entity indicating the result of the clear operation
+     */
     @PostMapping("/clear")
-    public void clear() {
-        logger.info("Received clear request.");
+    public ResponseEntity<String> clear() {
+        log.info("Received clear request.");
         chatBotService.clear();
-        logger.info("Clear process completed.");
+        log.info("Clear process completed.");
+        return ResponseEntity.ok("Clear process completed successfully.");
     }
 }
