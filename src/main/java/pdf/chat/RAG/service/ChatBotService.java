@@ -53,9 +53,7 @@ public class ChatBotService {
 
     public String chat(String query) {
         log.info("Received chat request with query: {}", query);
-        String response = chatClient.call(createPrompt(query, dataRetrievalService.searchData(query)));
-        log.info("Returning chat response: {}", response);
-        return response;
+        return chatClient.call(createPrompt(query, dataRetrievalService.searchData(query)));
     }
 
     public Flux<String> chatStream(String query) {

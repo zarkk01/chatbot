@@ -26,7 +26,7 @@ public class RAGController {
     @Autowired
     private ChatBotService chatBotService;
 
-    // http://localhost:8080/chat/stream?query=What is the phone number of Nikolas Kiamilis?
+    // http://localhost:8080/chat?query=What is the phone number of Nikolas Kiamilis?
     @GetMapping("/chat")
     public String chat(@RequestParam(name = "query") String query) {
         logger.info("Received chat request with query: {}", query);
@@ -35,6 +35,7 @@ public class RAGController {
         return response;
     }
 
+    // http://localhost:8080/chat/stream?query=What is the phone number of Nikolas Kiamilis?
     @GetMapping(value = "/chat/stream", produces = "text/event-stream")
     public Flux<String> chatStream(@RequestParam(name = "query") String query) {
         return chatBotService.chatStream(query);
@@ -48,8 +49,8 @@ public class RAGController {
         logger.info("Load process completed.");
     }
 
-    // http://localhost:8080/loadHttp?query=https://www.newitalianbooks.it/wp-content/uploads/2020/05/CristianoRonaldo.pdf?
-    @PostMapping("/load")
+    // http://localhost:8080/loadHttp?query=https://www.newitalianbooks.it/wp-content/uploads/2020/05/CristianoRonaldo.pdf
+    @PostMapping("/loadHttp")
     public void loadHttp(@RequestParam(name = "file") String file) throws MalformedURLException {
         logger.info("Received load request for file.");
         chatBotService.load(file);
