@@ -43,8 +43,10 @@ To run the application, you must create a vector search index for the MongoDB co
     ```
 
 2. **Add PDF files** (optional):
-    - If you want to load your own PDF files during initialization, place them in the `src/main/resources/docs` folder.
-    - **Note**: The application will automatically load these PDFs when it starts and will delete them from this folder for security reasons.
+    - If you want to load your own PDF files during initialization, place them in the `src/main/resources/docs` folder before running it.
+    - 
+> [!IMPORTANT]  
+> The application will automatically load these PDFs when it starts and will delete them from this folder after the load for security reasons.
 
 3. **Build the application**:
     ```bash
@@ -57,12 +59,6 @@ To run the application, you must create a vector search index for the MongoDB co
     ```
 
 ## API Endpoints
-
-### Initialize the Controller
-
-- **Endpoint**: `/init`
-- **Method**: `POST`
-- **Description**: Initializes the controller by loading initial data from the default location.
 
 ### Chat Request
 
