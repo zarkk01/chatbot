@@ -23,9 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-
 import static org.springframework.util.ResourceUtils.getFile;
-
 
 @Service
 @Slf4j
@@ -92,6 +90,7 @@ public class DataLoaderService {
 
         for (int i = 0; i < pdfFiles.length; i++) {
             resources[i] = new FileSystemResource(pdfFiles[i]);
+
             log.debug("Found PDF file: {}", pdfFiles[i].getName());
         }
 
@@ -101,7 +100,9 @@ public class DataLoaderService {
     // Clear all PDFs from the collection.
     public void clear() {
         log.info("Clearing all documents from collection: {}", collection);
+
         mongoTemplate.getCollection(collection).deleteMany(new Document());
+
         log.info("All documents cleared from collection: {}", collection);
     }
 }

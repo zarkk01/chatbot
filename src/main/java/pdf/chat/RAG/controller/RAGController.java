@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pdf.chat.RAG.service.ChatBotService;
 import reactor.core.publisher.Flux;
-
 import java.net.MalformedURLException;
 
 @RestController
@@ -49,7 +48,7 @@ public class RAGController {
         logger.info("Load process completed.");
     }
 
-    // http://localhost:8080/load
+    // http://localhost:8080/loadHttp?query=https://www.newitalianbooks.it/wp-content/uploads/2020/05/CristianoRonaldo.pdf?
     @PostMapping("/load")
     public void loadHttp(@RequestParam(name = "file") String file) throws MalformedURLException {
         logger.info("Received load request for file.");

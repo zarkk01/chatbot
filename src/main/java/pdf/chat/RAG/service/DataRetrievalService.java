@@ -7,7 +7,6 @@ package pdf.chat.RAG.service;
 //        |  |-'  `---'`--'   `--'    `----' `--`--' `---' `----'`--'    `--'   `--`--'.`-  /
 //        `--'                                                                         `---'
 
-
 import java.util.List;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.MongoDBAtlasVectorStore;

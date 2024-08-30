@@ -7,10 +7,8 @@ package pdf.chat.RAG.service;
 //        |  |-'  `---'`--'   `--'    `----' `--`--' `---' `----'`--'    `--'   `--`--'.`-  /
 //        `--'                                                                         `---'
 
-
 import java.net.MalformedURLException;
 import java.util.List;
-
 import com.mongodb.client.MongoClient;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.PromptTemplate;
@@ -83,7 +81,7 @@ public class ChatBotService {
             log.info("Loading documents from env variable set path folder location.");
             dataLoaderService.load();
         } else {
-            log.info("There are Already files into the Database");
+            log.info("There are already files into the Database");
         }
     }
 
