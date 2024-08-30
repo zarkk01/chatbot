@@ -91,7 +91,7 @@ public class ChatbotService {
      */
     public void load() throws MalformedURLException {
         if (mongoTemplate.getCollection(collection).countDocuments() == 0) {
-            log.info("ChatBotService::load - Loading documents from env variable set path folder location.");
+            log.info("ChatBotService::load - Loading documents from docs folder.");
             dataLoaderService.load();
         } else {
             log.info("ChatBotService::load - There are already files into the database.");
