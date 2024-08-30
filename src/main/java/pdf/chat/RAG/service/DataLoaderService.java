@@ -29,19 +29,37 @@ public class DataLoaderService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    /**
+     * Loads PDFs from the default classpath folder.
+     * This method is called when no specific file URL is provided.
+     * This is happening in two scenarios :
+     * 1. During the init(), where the PDFs from docs folder are supposed to be loaded.
+     * 2. During the load() call with no url specified.
+     *
+     * @throws MalformedURLException if the default folder path is incorrect or not accessible.
+     */
     public void load() throws MalformedURLException {
-        log.info("Loading PDFs from default classpath.");
+        log.info("DataLoaderService::load - Loading PDFs from default classpath.");
         load("");
     }
 
-    // Load PDFs either from specified file from http(s) or from the docs folder in the resources.
+
+    /**
+     * Loads PDFs from either a specified file URL or from the default documents folder.
+     * Processes each PDF, converts it to text, splits the text, and stores it in the vector store.
+     * This method is called whether from ChatBotService::load() when an url is supposed to be given,
+     * or from DataLoaderService::load() where the empty string ("") is given.
+     *
+     * @param file Optional URL of the PDF file to load. If empty, loads from the default folder.
+     * @throws MalformedURLException if the provided file URL is malformed or inaccessible.
+     */
     public void load(String file) throws MalformedURLException {
         Resource[] resources = file.isEmpty()
                 ? folderLoader()
                 : new Resource[]{new UrlResource(file)};
 
         for (Resource resource : resources) {
-            log.debug("Processing PDF resource: {}", resource.getFilename());
+            log.debug("DataLoaderService::load - Processing PDF resource: {}", resource.getFilename());
 
             var config = PdfDocumentReaderConfig.builder()
                     .withPageExtractedTextFormatter(new ExtractedTextFormatter.Builder().build())
@@ -52,7 +70,7 @@ public class DataLoaderService {
             var textSplitter = new TokenTextSplitter();
             vectorStore.accept(textSplitter.apply(pdfReader.get()));
 
-            log.info("Successfully processed and stored resource: {}", resource.getFilename());
+            log.info("DataLoaderService::load - Successfully processed and stored resource: {}", resource.getFilename());
 
             if(file.isEmpty()) {
                 deleteFile(resource);
@@ -60,21 +78,15 @@ public class DataLoaderService {
         }
     }
 
-    // Helper method to convert files from Resource to File type and then delete them
-    private void deleteFile(Resource resource) {
-        try {
-            File myFile = getFile(resource.getURI());
-            myFile.delete();
-
-            log.info("Successfully deleted file: {}", myFile.getCanonicalPath());
-        } catch (IOException e) {
-            log.error("Can not delete file that does not exist");
-        }
-    }
-
-    // Find all PDF files from given folder path.
+    /**
+     * Loads all PDF files from the default folder located at 'src/main/resources/docs'.
+     * This method is used when no specific file URL is provided and, basically, creates an array with
+     * all Resources that are supposed to load in the database.
+     *
+     * @return An array of Resource objects representing the PDF files found in the folder.
+     */
     private Resource[] folderLoader() {
-        log.info("Loading all PDF files from folder: {}", "src/main/resources/docs");
+        log.info("DataLoaderService::folderLoader - Loading all PDF files from folder: {}", "src/main/resources/docs");
 
         File folder = new File("src/main/resources/docs");
         File[] pdfFiles = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".pdf"));
@@ -84,18 +96,41 @@ public class DataLoaderService {
         for (int i = 0; i < pdfFiles.length; i++) {
             resources[i] = new FileSystemResource(pdfFiles[i]);
 
-            log.debug("Found PDF file: {}", pdfFiles[i].getName());
+            log.debug("DataLoaderService::folderLoader - Found PDF file: {}", pdfFiles[i].getName());
         }
 
         return resources;
     }
 
-    // Clear all PDFs from the collection.
+    /**
+     * Deletes the specified file after processing it.
+     * This method is used to clean up files that were loaded from the default folder.
+     * This method is only called from DataLoaderService::load() when PDFs are loaded from
+     * docs folder.
+     *
+     * @param resource The resource representing the file to be deleted.
+     */
+    private void deleteFile(Resource resource) {
+        try {
+            File myFile = getFile(resource.getURI());
+            boolean deleted = myFile.delete();
+            if(!deleted) {
+                throw new IOException("Failed to delete file: " + myFile.getCanonicalPath());
+            }
+
+            log.info("DataLoaderService::deleteFile - Successfully deleted file: {}", myFile.getCanonicalPath());
+        } catch (IOException e) {
+            log.error("DataLoaderService::deleteFile - Can not delete file that does not exist");
+        }
+    }
+
+    /**
+     * Clears all PDF documents from the specified collection in the MongoDB database.
+     * This method removes all documents from the collection and should be used with caution.
+     */
     public void clear() {
-        log.info("Clearing all documents from collection: {}", collection);
-
+        log.info("DataLoaderService::clear - Clearing all documents from collection: {}", collection);
         mongoTemplate.getCollection(collection).deleteMany(new Document());
-
-        log.info("All documents cleared from collection: {}", collection);
+        log.info("DataLoaderService::clear - All documents cleared from collection: {}", collection);
     }
 }

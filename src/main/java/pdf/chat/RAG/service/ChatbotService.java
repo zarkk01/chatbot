@@ -13,7 +13,7 @@ import reactor.core.publisher.Flux;
 
 @Service
 @Slf4j
-public class ChatBotService {
+public class ChatbotService {
     private final String collection = System.getenv("COLLECTION_NAME");
 
     @Autowired

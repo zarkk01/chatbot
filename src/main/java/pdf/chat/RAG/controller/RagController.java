@@ -8,15 +8,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pdf.chat.RAG.service.ChatBotService;
+import pdf.chat.RAG.service.ChatbotService;
 import reactor.core.publisher.Flux;
 import java.net.MalformedURLException;
 
 @RestController
 @Slf4j
-public class RAGController {
+public class RagController {
+
     @Autowired
-    private ChatBotService chatBotService;
+    private ChatbotService chatBotService;
 
     /**
      * Initializes the controller by loading initial data.
