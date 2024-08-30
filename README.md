@@ -38,7 +38,7 @@ To run the application, you must create a vector search index for the MongoDB co
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/your-repo/chatbot.git
+    git clone https://github.com/zarkk01/chatbot.git
     cd chatbot
     ```
 
