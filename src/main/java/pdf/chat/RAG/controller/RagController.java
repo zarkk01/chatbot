@@ -36,7 +36,7 @@ public class RagController {
     /**
      * Handles a chat request with a given query.
      * Example GET request with query : http://localhost:8080/chat?query=What is the
-     * phone number of Nikolas Kiamilis?
+     * phone number of PERSON?
      *
      * @param query the query to be processed by our chat service
      * @return the chat response
@@ -52,7 +52,7 @@ public class RagController {
     /**
      * Handles a chat stream request with a given query and return the response as a stream.
      * Example GET request with query : http://localhost:8080/chat?query=What is the
-     * phone number of Nikolas Kiamilis?
+     * phone number of PERSON?
      *
      * @param query the query to be processed by our chat service
      * @return a stream of chat responses
