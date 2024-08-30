@@ -43,6 +43,7 @@ public class RAGController {
 
     // http://localhost:8080/load
     @PostConstruct()
+    @PostMapping("/load")
     public void load() throws MalformedURLException {
         logger.info("Received load request.");
         chatBotService.load();
