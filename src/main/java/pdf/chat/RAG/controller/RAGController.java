@@ -27,9 +27,9 @@ public class RAGController {
      */
     @PostConstruct
     public void init() throws MalformedURLException {
-        log.info("Received load request.");
+        log.info("RAGController::init - Received load request.");
         chatBotService.load();
-        log.info("Load process completed.");
+        log.info("RAGController::init - Load process completed.");
     }
 
     /**
@@ -42,9 +42,9 @@ public class RAGController {
      */
     @GetMapping("/chat")
     public ResponseEntity<String> chat(@RequestParam(name = "query") String query) {
-        log.info("Received chat request with query: {}", query);
+        log.info("RAGController::chat - Received chat request with query: {}", query);
         String response = chatBotService.chat(query);
-        log.info("Returning chat response: {}", response);
+        log.info("RAGController::chat - Returning chat response: {}", response);
         return ResponseEntity.ok(response);
     }
 
@@ -58,7 +58,7 @@ public class RAGController {
      */
     @GetMapping(value = "/chat/stream", produces = "text/event-stream")
     public Flux<String> chatStream(@RequestParam(name = "query") String query) {
-        log.info("Received chat request for streaming response with query: {}", query);
+        log.info("RAGController::chatStream - Received chat request for streaming response with query: {}", query);
         return chatBotService.chatStream(query);
     }
 
@@ -75,16 +75,16 @@ public class RAGController {
     public ResponseEntity<String> load(@RequestParam(name = "file", required = false) String file) throws MalformedURLException {
         try {
             if (file == null) {
-                log.info("No file specified, performing default load meaning will load whatever is in docs file.");
+                log.info("RAGController::load - No file specified, performing default load meaning will load whatever is in docs file.");
                 chatBotService.load("");
             } else {
-                log.info("Received load request for PDF in HTTP(s): {}", file);
+                log.info("RAGController::load - Received load request for PDF in HTTP(s): {}", file);
                 chatBotService.load(file);
-                log.info("Load process completed for PDF in HTTP(s): {}", file);
+                log.info("RAGController::load - Load process completed for PDF in HTTP(s): {}", file);
             }
             return ResponseEntity.ok("Load process completed successfully.");
         } catch (MalformedURLException e) {
-            log.error("Malformed URL: {}", e.getMessage());
+            log.error("RAGController::load - Malformed URL: {}", e.getMessage());
             return ResponseEntity.badRequest().body("Invalid URL provided.");
         }
     }
@@ -98,9 +98,9 @@ public class RAGController {
      */
     @PostMapping("/clear")
     public ResponseEntity<String> clear() {
-        log.info("Received clear request.");
+        log.info("RAGController::clear - Received clear request.");
         chatBotService.clear();
-        log.info("Clear process completed.");
+        log.info("RAGController::clear - Clear process completed.");
         return ResponseEntity.ok("Clear process completed successfully.");
     }
 }
