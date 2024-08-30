@@ -43,7 +43,6 @@ public class DataLoaderService {
         load("");
     }
 
-
     /**
      * Loads PDFs from either a specified file URL or from the default documents folder.
      * Processes each PDF, converts it to text, splits the text, and stores it in the vector store.
