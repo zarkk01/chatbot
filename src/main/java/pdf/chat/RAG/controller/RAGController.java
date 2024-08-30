@@ -49,7 +49,7 @@ public class RAGController {
         logger.info("Load process completed.");
     }
 
-    // http://localhost:8080/loadHttp?query=https://www.newitalianbooks.it/wp-content/uploads/2020/05/CristianoRonaldo.pdf
+    // http://localhost:8080/loadHttp?file=https://www.newitalianbooks.it/wp-content/uploads/2020/05/CristianoRonaldo.pdf
     @PostMapping("/loadHttp")
     public void loadHttp(@RequestParam(name = "file") String file) throws MalformedURLException {
         logger.info("Received load request for file.");
