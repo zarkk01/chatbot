@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100vh;
+  height: 97vh;
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
@@ -16,57 +16,28 @@
   flex: 1;
   overflow-y: scroll;
   margin-bottom: 10px;
+  scrollbar-width: none;
 }
 
 .input-area {
   display: flex;
   border-top: 1px solid #ccc;
-  padding-top: 10px;
+  padding-top: 40px;
 }
 
 input[type="text"] {
-  flex: 1;
+  flex: 10;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 20px;
   border: 1px solid #ccc;
   margin-right: 10px;
 }
 
-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #ff0000;
-  color: white;
-  cursor: pointer;
-}
 
 button:hover {
   background-color: #ff0000;
 }
 
-.message {
-  padding: 10px;
-  margin: 5px 0;
-  border-radius: 10px;
-  max-width: 70%;
-}
-
-.user-message {
-  background-color: #ff0000;
-  color: white;
-  align-self: flex-end;
-}
-
-.bot-message {
-  background-color: #e5e5ea;
-  color: black;
-  align-self: flex-start;
-}
-
-.upload-button {
-  margin-top: 10px;
-}
 .App {
   display: flex;
   justify-content: center;

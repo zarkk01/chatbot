@@ -11,7 +11,7 @@
 .upload-button button {
     padding: 10px;
     border: none;
-    border-radius: 5px;
+    border-radius: 20px;
     background-color: #ff0000; /* Vodafone red */
     color: white;
     cursor: pointer;
