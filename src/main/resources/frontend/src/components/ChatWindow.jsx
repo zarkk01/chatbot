@@ -30,7 +30,7 @@ const ChatWindow = () => {
                     <Message key={index} text={msg.text} user={msg.user} />
                 ))}
             </div>
-            <div className="input-area">
+            <div className="input-container">
                 <input
                     type="text"
                     value={input}
@@ -38,9 +38,9 @@ const ChatWindow = () => {
                     onKeyPress={handleKeyPress}
                     placeholder="Type your query here..."
                 />
-                <button onClick={sendMessage}>Send</button>
+                <button onClick={sendMessage} className="send-button">→</button>
+                <UploadButton />
             </div>
-            <UploadButton />
         </div>
     );
 };
