@@ -1,0 +1,25 @@
+/* UploadButton.css */
+
+.upload-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.upload-button input[type="file"] {
+    display: none;
+}
+
+.upload-button button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.upload-button button:hover {
+    background-color: #0056b3;
+}

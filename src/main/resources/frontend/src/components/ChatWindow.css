@@ -1,0 +1,46 @@
+.chat-window {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+}
+
+.messages {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+button {
+    padding: 10px 15px;
+    margin-right: 5px;
+}
+
+.history {
+    margin-top: 20px;
+}
+
+.history h4 {
+    margin-bottom: 10px;
+}
+
+.history ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.history li {
+    margin-bottom: 5px;
+}
