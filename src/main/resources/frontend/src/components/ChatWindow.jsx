@@ -37,12 +37,14 @@ const ChatWindow = () => {
                     onChange={(e) => setInput(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Type your query here..."
+                    className="chat-input"
                 />
                 <button onClick={sendMessage} className="send-button">→</button>
-                <UploadButton />
+                <UploadButton/>
             </div>
         </div>
     );
+
 };
 
 export default ChatWindow;

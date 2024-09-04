@@ -12,15 +12,27 @@
     margin-bottom: 10px;
 }
 
+.pt-site-footer__submit{
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+
+
 .input-container {
-    display: flex;
-    align-items: center;
+    /*display: flex;*/
+    /*align-items: center;*/
+    max-width: 100%;
+    position: relative;
 }
 
 input[type="text"] {
     flex: 1;
     padding: 10px;
     margin-right: 10px;
+    width: 97%;
+    height: 20px;
 }
 
 button.send-button {
@@ -33,6 +45,9 @@ button.send-button {
     cursor: pointer;
     transform: rotate(-90deg); /* Rotate arrow to point upwards */
     transition: box-shadow 0.3s ease;
+    position: absolute;
+    right:-1px;
+    top: 3px;
 }
 
 button.send-button:hover {
