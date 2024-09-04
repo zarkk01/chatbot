@@ -37,7 +37,8 @@
     background-color: #ff0000;
     color: white;
     align-self: flex-end; /* Aligns user messages to the right */
-    text-align: right; /* Aligns text to the right */
+    text-align: right;
+    /* Aligns text to the right */
 }
 
 /* Bot message styles */
@@ -48,6 +49,12 @@
     text-align: left; /* Aligns text to the left */
     display: flex;
     align-items: center;
+}
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: -45px;
 }
 
 /*!* Avatar styles *!*/
@@ -64,4 +71,8 @@
 /* Ensure message container does not overlap avatar */
 .message-container {
     margin-left: 50px; /* Space for the avatar */
+}
+
+.message-user-container{
+    margin-left: 5px;
 }

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './Message.css';
 
 const Message = ({ text, user }) => {
+    const logoUrl = process.env.PUBLIC_URL + '/Vodafone-Symbol.png'; // Reference the image from the public folder
     const [displayedText, setDisplayedText] = useState('');
-
     useEffect(() => {
         if (!user) {
             let first = true;
@@ -26,12 +26,16 @@ const Message = ({ text, user }) => {
             return () => clearInterval(typingInterval);
         } else {
             setDisplayedText(text);
-        }
+    }
     }, [text, user]);
 
     return (
+
         <div className={`message ${user ? 'user-message' : 'bot-message'}`}>
-            {displayedText}
+            {!user && <img src={`${process.env.PUBLIC_URL}/Vodafone-Symbol.png`} alt="Bot Avatar" className="avatar" />}
+            <div className={`${user ? 'message-user-container' : 'message-container'}`}>
+                {displayedText}
+            </div>
         </div>
     );
 };
