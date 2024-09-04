@@ -1,7 +1,18 @@
 .upload-button {
     display: flex;
     align-items: center;
-    margin-left: 5px; /* To align it nicely next to the arrow button */
+    margin-left: 3px; /* To align it nicely next to the arrow button */
+    padding: 0px;
+    margin-right: 13px;
+    border: none;
+    border-radius: 25px;
+    background-color: #DC143C; /* Vodafone red */
+    color: white;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+    position: absolute;
+    right:30px;
+    top: 3px;
 }
 
 .upload-button input[type="file"] {
