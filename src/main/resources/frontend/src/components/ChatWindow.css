@@ -26,6 +26,7 @@
     /*align-items: center;*/
     max-width: 100%;
     position: relative;
+    bottom: -9px;
 }
 
 input[type="text"] {
@@ -54,6 +55,14 @@ button.send-button {
 button.send-button:hover {
     background-color: #d91439; /* Darker red */
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+
+.text-under {
+    color: #a9a7a7;
+    text-align: center;
+    padding: 7px;
+    font-family: Bahnschrift;
+    font-size: 11px;
 }
 
 
