@@ -12,12 +12,12 @@
     padding: 10px;
     border: none;
     border-radius: 20px;
-    background-color: #ff0000; /* Vodafone red */
+    background-color: #DC143C; /* Vodafone red */
     color: white;
     cursor: pointer;
     height: 100%; /* Ensure it matches the height of the arrow button */
 }
 
 .upload-button button:hover {
-    background-color: #cc0000; /* Darker red */
+    background-color: #DC143C; /* Darker red */
 }

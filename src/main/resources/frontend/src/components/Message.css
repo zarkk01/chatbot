@@ -34,7 +34,7 @@
 
 /* User message styles */
 .user-message {
-    background-color: #ff0000;
+    background-color: #DC143C;
     color: white;
     align-self: flex-end; /* Aligns user messages to the right */
     text-align: right;

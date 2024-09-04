@@ -1,6 +1,7 @@
 .chat-window {
     display: flex;
     flex-direction: column;
+    box-shadow: black 0px 0px 5px;
     height: 100%;
     width: 100%;
     padding: 20px;
@@ -40,7 +41,7 @@ button.send-button {
     margin-right: 5px;
     border: none;
     border-radius: 20px;
-    background-color: #ff0000; /* Vodafone red */
+    background-color: #DC143C; /* Vodafone red */
     color: white;
     cursor: pointer;
     transform: rotate(-90deg); /* Rotate arrow to point upwards */
@@ -51,7 +52,7 @@ button.send-button {
 }
 
 button.send-button:hover {
-    background-color: #cc0000; /* Darker red */
+    background-color: #DC143C; /* Darker red */
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
 }
 
