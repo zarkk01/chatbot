@@ -30,14 +30,24 @@ const Message = ({ text, user }) => {
     }, [text, user]);
 
     return (
-
-        <div className={`message ${user ? 'user-message' : 'bot-message'}`}>
-            {!user && <img src={`${process.env.PUBLIC_URL}/Vodafone-Symbol1.png`} alt="Bot Avatar" className="avatar" />}
-            <div className={`${user ? 'message-user-container' : 'message-container'}`}>
-                {displayedText}
+        <div className="message-wrapper">
+            {!user && (
+                <div className="avatar-container">
+                    <img
+                        src={`${process.env.PUBLIC_URL}/Vodafone-Symbol1.png`}
+                        alt="Bot Avatar"
+                        className="avatar"
+                    />
+                </div>
+            )}
+            <div className={`message ${user ? 'user-message' : 'bot-message'}`}>
+                <div className={`${user ? 'message-user-container' : 'message-container'}`}>
+                    {displayedText}
+                </div>
             </div>
         </div>
     );
+
 };
 
 export default Message;

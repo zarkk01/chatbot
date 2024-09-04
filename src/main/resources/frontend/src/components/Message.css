@@ -13,23 +13,32 @@
     background-color: #f7f7f7;
 }
 
-/* Container for messages */
-.messages {
-    flex: 1;
-    overflow-y: auto;
+.message-wrapper {
     display: flex;
-    flex-direction: column;
+    margin-bottom: 10px; /* Space between messages */
 }
 
-/* Individual message styles */
+/* Container for bot avatar */
+.avatar-container {
+    margin-right: 10px; /* Space between avatar and message box */
+    margin-top: 7px;
+}
+
+.avatar {
+    width: 25px; /* Size of the avatar */
+    height: 25px;
+    border-radius: 50%; /* Makes the avatar circular */
+}
+
+/* General message styles */
 .message {
-    border-radius: 20px;
     padding: 10px;
-    margin: 5px 0;
+    border-radius: 20px;
     max-width: 70%;
-    display: inline-block;
-    clear: both; /* Ensure messages don't overlap */
-    position: relative; /* Needed for positioning the avatar */
+    word-wrap: break-word; /* Ensures long text wraps */
+    display: flex;
+    align-items: center;
+    position: relative; /* Necessary for the pseudo-element to position properly */
 }
 
 /* User message styles */
@@ -37,11 +46,11 @@
     background-color: #DC143C;
     color: white;
     align-self: flex-end; /* Aligns user messages to the right */
-    text-align: right;
-    /* Aligns text to the right */
+    text-align: left;
+    margin-left: auto; /* Pushes the message to the right */
 }
 
-/* Bot message styles */
+/* Bot message styles with custom speech bubble */
 .bot-message {
     background-color: #e5e5ea;
     color: black;
@@ -49,30 +58,19 @@
     text-align: left; /* Aligns text to the left */
     display: flex;
     align-items: center;
-}
-.avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: -45px;
+    position: relative; /* Position relative for the triangle */
+    padding-left: 15px; /* Extra padding to make room for the triangle */
 }
 
-/*!* Avatar styles *!*/
-/*.avatar {*/
-/*    width: 40px;*/
-/*    height: 40px;*/
-/*    border-radius: 50%;*/
-/*    background-color: #ccc; !* Default background color if no image *!*/
-/*    margin-right: 10px; !* Space between avatar and message *!*/
-/*    position: absolute;*/
-/*    left: 10px;*/
-/*}*/
-
-/* Ensure message container does not overlap avatar */
-.message-container {
-    margin-left: 50px; /* Space for the avatar */
+.bot-message::before {
+    content: "";
+    position: absolute;
+    top: 10px; /* Adjusts the vertical position of the triangle */
+    left: -7px; /* Adjusts the horizontal position to be outside the box */
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 10px 10px 0; /* Triangle pointing left */
+    border-color: transparent #e5e5ea transparent transparent; /* Triangle color matches the box */
 }
 
-.message-user-container{
-    margin-left: 5px;
-}
