@@ -48,6 +48,7 @@
     align-self: flex-end; /* Aligns user messages to the right */
     text-align: left;
     margin-left: auto; /* Pushes the message to the right */
+    margin-right:10px;
 }
 
 /* Bot message styles with custom speech bubble */
@@ -74,3 +75,14 @@
     border-color: transparent #e5e5ea transparent transparent; /* Triangle color matches the box */
 }
 
+.user-message::after {
+    content: "";
+    position: absolute;
+    top: 10px; /* Adjusts the vertical position of the triangle */
+    right: -7px; /* Adjusts the horizontal position to be outside the box */
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 0 10px 10px; /* Triangle pointing right */
+    border-color: transparent transparent transparent #DC143C; /* Triangle color matches the box */
+}

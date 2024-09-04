@@ -45,8 +45,18 @@ const Message = ({ text, user }) => {
                     {displayedText}
                 </div>
             </div>
+            {user && (
+                <div className="avatar-container user-image">
+                    <img
+                        src={`${process.env.PUBLIC_URL}/user-image.png`}
+                        alt="User Avatar"
+                        className="avatar"
+                    />
+                </div>
+            )}
         </div>
     );
+
 
 };
 
