@@ -9,13 +9,13 @@ const ChatWindow = () => {
 
     const sendMessage = async () => {
         if (input.trim()) {
+            setInput('');
             setMessages([...messages, { text: input, user: true }]);
 
             const response = await fetch(`http://localhost:8080/chat?query=${encodeURIComponent(input)}`);
             const data = await response.text();
 
             setMessages([...messages, { text: input, user: true }, { text: data, user: false }]);
-            setInput('');
         }
     };
 
