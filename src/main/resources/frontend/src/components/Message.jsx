@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Message.css';
 
 const Message = ({ text, user }) => {
-    const logoUrl = process.env.PUBLIC_URL + '/Vodafone-Symbol.png'; // Reference the image from the public folder
+    const logoUrl = process.env.PUBLIC_URL + '/Vodafone-Symbol1.png'; // Reference the image from the public folder
     const [displayedText, setDisplayedText] = useState('');
     useEffect(() => {
         if (!user) {
@@ -32,7 +32,7 @@ const Message = ({ text, user }) => {
     return (
 
         <div className={`message ${user ? 'user-message' : 'bot-message'}`}>
-            {!user && <img src={`${process.env.PUBLIC_URL}/Vodafone-Symbol.png`} alt="Bot Avatar" className="avatar" />}
+            {!user && <img src={`${process.env.PUBLIC_URL}/Vodafone-Symbol1.png`} alt="Bot Avatar" className="avatar" />}
             <div className={`${user ? 'message-user-container' : 'message-container'}`}>
                 {displayedText}
             </div>
