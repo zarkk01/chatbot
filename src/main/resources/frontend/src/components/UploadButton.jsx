@@ -13,7 +13,7 @@ const UploadButton = () => {
     return (
         <div className="upload-button">
             <input type="file" onChange={handleFileUpload}/>
-            <button onClick={handleFileUpload}>Upload PDF</button>
+            <button onClick={handleFileUpload}>PDF</button>
         </div>
     );
 };

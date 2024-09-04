@@ -1,7 +1,18 @@
 .upload-button {
     display: flex;
     align-items: center;
-    margin-left: 5px; /* To align it nicely next to the arrow button */
+    margin-left: 3px; /* To align it nicely next to the arrow button */
+    padding: 0px;
+    margin-right: 13px;
+    border: none;
+    border-radius: 25px;
+    background-color: #DC143C; /* Vodafone red */
+    color: white;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+    position: absolute;
+    right:30px;
+    top: 3.8px;
 }
 
 .upload-button input[type="file"] {
@@ -9,7 +20,7 @@
 }
 
 .upload-button button {
-    padding: 10px;
+    padding: 9px;
     border: none;
     border-radius: 20px;
     background-color: #DC143C; /* Vodafone red */
@@ -19,5 +30,6 @@
 }
 
 .upload-button button:hover {
-    background-color: #DC143C; /* Darker red */
+    background-color: #d91439; /* Darker red */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
 }
