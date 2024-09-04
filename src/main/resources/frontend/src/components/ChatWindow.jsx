@@ -43,7 +43,7 @@ const ChatWindow = () => {
                 />
                 <button onClick={sendMessage} className="send-button">→</button>
                 <UploadButton/>
-                <div className={"text-under"}>Be careful. Vodafone can response BS.</div>
+                <div className={"text-under"}>Be careful. Chatbot's responses are not always to the point.</div>
             </div>
         </div>
     );

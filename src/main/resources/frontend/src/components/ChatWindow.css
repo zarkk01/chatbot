@@ -19,20 +19,17 @@
     overflow: hidden;
 }
 
-
-
 .input-container {
-    /*display: flex;*/
-    /*align-items: center;*/
-    max-width: 100%;
+    max-width: 90%;
     position: relative;
     bottom: -9px;
+    left: 52px;
 }
 
 input[type="text"] {
     flex: 1;
-    padding: 10px;
-    margin-right: 10px;
+    padding: 19px;
+    margin-right: 20px;
     width: 97%;
     height: 20px;
 }
@@ -60,7 +57,8 @@ button.send-button:hover {
 .text-under {
     color: #a9a7a7;
     text-align: center;
-    padding: 7px;
+    padding: 6px;
+    padding-right: 48px;
     font-family: Bahnschrift;
     font-size: 11px;
 }
