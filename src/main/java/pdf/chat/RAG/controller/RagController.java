@@ -4,15 +4,13 @@ import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pdf.chat.RAG.service.ChatbotService;
 import reactor.core.publisher.Flux;
 import java.net.MalformedURLException;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @Slf4j
 public class RagController {
 
