@@ -46,7 +46,7 @@ const ChatWindow = () => {
                 />
                 <button onClick={sendMessage} className="send-button">→</button>
                 <UploadButton/>
-                <div className={"text-under"}>Be careful. Chatbot's responses are not always to the point.</div>
+                <div className={"text-under"}>Keep in mind that Chatbot responses may not always be relevant.</div>
             </div>
         </div>
     );
