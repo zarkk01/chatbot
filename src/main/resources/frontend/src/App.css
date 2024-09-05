@@ -19,14 +19,8 @@
   scrollbar-width: thin;
 }
 
-.input-area {
-  display: flex;
-  border-top: 1px solid #ccc;
-  padding-top: 40px;
-}
-
 input[type="text"] {
-  flex: 10;
+  flex: 40;
   padding: 10px;
   border-radius: 20px;
   border: 1px solid #ccc;
