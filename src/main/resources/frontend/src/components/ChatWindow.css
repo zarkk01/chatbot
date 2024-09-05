@@ -18,6 +18,7 @@
     justify-content: center;
     margin-bottom: 10px;
     padding: 10px; /* Original padding */
+    border-bottom: 1px solid #fb7b7b
 }
 
 .chat-header img {

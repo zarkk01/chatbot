@@ -16,7 +16,7 @@
   flex: 1;
   overflow-y: scroll;
   margin-bottom: 10px;
-  scrollbar-width: none;
+  scrollbar-width: thin;
 }
 
 .input-area {
