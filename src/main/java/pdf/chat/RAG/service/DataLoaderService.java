@@ -53,6 +53,7 @@ public class DataLoaderService {
      * @param file Optional URL of the PDF file to load. If empty, loads from the default folder.
      * @throws MalformedURLException if the provided file URL is malformed or inaccessible.
      */
+    //todo try catch to save the cases where the URL is incorrect
     public void load(String file) throws MalformedURLException {
         Resource[] resources = file.isEmpty()
                 ? folderLoader()

@@ -12,6 +12,7 @@
     position: absolute;
     right: 536px;
     top: 3.8px;
+    rotate: revert;
 }
 
 .upload-button input[type="file"] {
