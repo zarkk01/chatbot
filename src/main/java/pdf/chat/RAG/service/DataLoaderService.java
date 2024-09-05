@@ -66,12 +66,12 @@ public class DataLoaderService {
                     .withPagesPerDocument(1)
                     .build();
 
-            var pdfReader = new ParagraphPdfDocumentReader(resource, config);
-            var textSplitter = new TokenTextSplitter();
-            vectorStore.accept(textSplitter.apply(pdfReader.get()));
-//            var pdfReader = new PagePdfDocumentReader(resource, config);
+//            var pdfReader = new ParagraphPdfDocumentReader(resource, config);
 //            var textSplitter = new TokenTextSplitter();
 //            vectorStore.accept(textSplitter.apply(pdfReader.get()));
+            var pdfReader = new PagePdfDocumentReader(resource, config);
+            var textSplitter = new TokenTextSplitter();
+            vectorStore.accept(textSplitter.apply(pdfReader.get()));
 
             log.info("DataLoaderService::load - Successfully processed and stored resource: {}", resource.getFilename());
 
