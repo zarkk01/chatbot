@@ -36,7 +36,6 @@ public class DataLoaderService {
 
     @Autowired
     private MongoTemplate mongoTemplate;
-    //TODO:USE TRY-WITH-RESOURCES TO CLOSE THE PDFREADER
     /**
      * Loads PDFs from the default classpath folder.
      * This method is called when no specific file URL is provided.
