@@ -25,8 +25,14 @@ const UploadButton = () => {
 
     return (
         <div className="upload-button">
-            <input type="file" onChange={handleFileUpload}/>
-            <button onClick={handleFileUpload}>📋</button>
+            <input type="file" onChange={handleFileUpload} />
+            <button onClick={handleFileUpload}>
+                <img
+                    src={`${process.env.PUBLIC_URL}/images1.png`}
+                    alt="images1"
+                    className="button-icon"
+                />
+            </button>
         </div>
     );
 };

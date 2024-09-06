@@ -5,8 +5,11 @@ import './App.css';
 function App() {
   return (
       <div className="App">
-        <ChatWindow />
+          <ChatWindow/>
       </div>
+    // <div className="Scrollbar">
+    //     <scrollbar/>
+    // </div>
   );
 }
 
