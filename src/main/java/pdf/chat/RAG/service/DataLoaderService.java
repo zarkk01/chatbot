@@ -66,16 +66,18 @@ public class DataLoaderService {
                     .withPageExtractedTextFormatter(new ExtractedTextFormatter.Builder().build())
                     .withPagesPerDocument(1)
                     .build();
+
+
             try {
                 var pdfReader = new ParagraphPdfDocumentReader(resource, config);
                 var textSplitter = new TokenTextSplitter();
                 vectorStore.accept(textSplitter.apply(pdfReader.get()));
-                log.info("ParagraphPfgDocumentReader was used");
+                log.info("DataLoaderService::load - ParagraphPfgDocumentReader was used");
             } catch (Exception e) {
                 var pdfReader = new PagePdfDocumentReader(resource, config);
                 var textSplitter = new TokenTextSplitter();
                 vectorStore.accept(textSplitter.apply(pdfReader.get()));
-                log.info("PagePfgDocumentReader was used");
+                log.info("DataLoaderService::load - PagePfgDocumentReader was used");
             }
             log.info("DataLoaderService::load - Successfully processed and stored resource: {}", resource.getFilename());
 
@@ -130,7 +132,7 @@ public class DataLoaderService {
             log.error("DataLoaderService::deleteFile - Can not delete file that does not exist");
         }
     }
-
+    //hello
     /**
      * Clears all PDF documents from the specified collection in the MongoDB database.
      * This method removes all documents from the collection and should be used with caution.

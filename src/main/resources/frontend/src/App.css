@@ -1,3 +1,5 @@
+/* ChatWindow.css */
+
 .chat-window {
   display: flex;
   flex-direction: column;
@@ -12,13 +14,29 @@
   background-color: #f7f7f7;
 }
 
+/* Apply custom scrollbar styles */
 .messages {
   flex: 1;
-  overflow-y: scroll;
+  overflow-y: auto;
   margin-bottom: 10px;
-  scrollbar-width: thin;
 }
 
+.messages::-webkit-scrollbar {
+  width: 8px; /* Slightly thinner */
+}
+
+.messages::-webkit-scrollbar-track {
+  background: transparent; /* Track is invisible */
+}
+
+.messages::-webkit-scrollbar-thumb {
+  background: rgba(255, 51, 51, 0.3); /* Light grey with some transparency */
+  border-radius: 10px; /* Rounded corners */
+}
+
+.messages::-webkit-scrollbar-thumb:hover {
+  background: #bf4242; /* Darker grey on hover */
+}
 
 input[type="text"] {
   flex: 40;
@@ -27,7 +45,6 @@ input[type="text"] {
   border: 1px solid #ccc;
   margin-right: 10px;
 }
-
 
 button:hover {
   background-color: #DC143C;
