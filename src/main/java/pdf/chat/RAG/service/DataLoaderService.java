@@ -31,10 +31,12 @@ import static org.springframework.util.ResourceUtils.getFile;
 public class DataLoaderService {
     private final String collection = System.getenv("COLLECTION_NAME");
 
-    @Autowired
+    public DataLoaderService(MongoDBAtlasVectorStore vectorStore, MongoTemplate mongoTemplate) {
+        this.vectorStore = vectorStore;
+        this.mongoTemplate = mongoTemplate;
+    }
     public MongoDBAtlasVectorStore vectorStore;
 
-    @Autowired
     private MongoTemplate mongoTemplate;
     /**
      * Loads PDFs from the default classpath folder.
