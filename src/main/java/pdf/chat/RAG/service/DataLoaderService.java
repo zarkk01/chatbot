@@ -79,7 +79,7 @@ public class DataLoaderService {
             var textSplitter = new TokenTextSplitter();
             vectorStore.accept(textSplitter.apply(pdfReader.get()));
             log.info("DataLoaderService::load - Successfully used ParagraphPdfDocumentReader");
-        }catch {
+        }catch(Exception e) {
             var pdfReader = new PagePdfDocumentReader(resource, config);
             var textSplitter = new TokenTextSplitter();
             vectorStore.accept(textSplitter.apply(pdfReader.get()));
