@@ -1,0 +1,29 @@
+/* ScrollToBottom.css */
+
+.scroll-to-bottom-container {
+    position: fixed;
+    bottom: 100px; /* Space from the bottom */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center horizontally using transform */
+}
+
+.scroll-to-bottom {
+    background: #007bff; /* Blue background */
+    color: white;
+    border: none;
+    border-radius: 100%;
+    width: 30px; /* Adjust width */
+    height: 30px; /* Adjust height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 24px; /* Adjust font size */
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.scroll-to-bottom:hover {
+    background: #0056b3; /* Darker blue on hover */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Shadow effect */
+}
+

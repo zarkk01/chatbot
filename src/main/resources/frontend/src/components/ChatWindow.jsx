@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Message from './Message';
 import UploadButton from './UploadButton';
+import ScrollToBottom from './ScrollToBottom';
 import './ChatWindow.css';
 
 const ChatWindow = () => {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
+    const messagesEndRef = useRef(null);
+    const chatContainerRef = useRef(null);
 
     const sendMessage = async () => {
         if (input.trim()) {
@@ -25,8 +28,16 @@ const ChatWindow = () => {
         if (e.key === 'Enter') sendMessage();
     };
 
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    useEffect(() => {
+        scrollToBottom(); // Scroll to bottom on initial render
+    }, [messages]); // Run when messages update
+
     return (
-        <div className="chat-window">
+        <div className="chat-window" ref={chatContainerRef}>
             <div className="chat-header">
                 <img src={process.env.PUBLIC_URL + '/Vodafone.png'} alt="Vodafone Logo"/>
             </div>
@@ -34,6 +45,7 @@ const ChatWindow = () => {
                 {messages.map((msg, index) => (
                     <Message key={index} text={msg.text} user={msg.user}/>
                 ))}
+                <div ref={messagesEndRef} /> {/* Empty div for scroll-to-bottom */}
             </div>
             <div className="input-container">
                 <input
@@ -46,11 +58,11 @@ const ChatWindow = () => {
                 />
                 <button onClick={sendMessage} className="send-button">→</button>
                 <UploadButton/>
-                <div className={"text-under"}>Keep in mind that Chatbot responses may not always be relevant.</div>
+                <div className="text-under">Keep in mind that Chatbot responses may not always be relevant.</div>
             </div>
+            <ScrollToBottom scrollToBottom={scrollToBottom} /> {/* Integrate ScrollToBottom */}
         </div>
     );
-
 };
 
 export default ChatWindow;

@@ -2,6 +2,7 @@ package pdf.chat.RAG.service;
 
 import org.springframework.ai.reader.ExtractedTextFormatter;
 import org.springframework.ai.reader.pdf.PagePdfDocumentReader;
+import org.springframework.ai.reader.pdf.ParagraphPdfDocumentReader;
 import org.springframework.ai.reader.pdf.config.PdfDocumentReaderConfig;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
 import org.springframework.ai.vectorstore.MongoDBAtlasVectorStore;
@@ -71,9 +72,17 @@ public class DataLoaderService {
                 .withPageExtractedTextFormatter(new ExtractedTextFormatter.Builder().build())
                 .withPagesPerDocument(1)
                 .build();
-        var pdfReader = new PagePdfDocumentReader(resource, config);
-        var textSplitter = new TokenTextSplitter();
-        vectorStore.accept(textSplitter.apply(pdfReader.get()));
+        try {
+            var pdfReader = new ParagraphPdfDocumentReader(resource, config);
+            var textSplitter = new TokenTextSplitter();
+            vectorStore.accept(textSplitter.apply(pdfReader.get()));
+            log.info("DataLoaderService::load - Successfully used ParagraphPdfDocumentReader");
+        }catch {
+            var pdfReader = new PagePdfDocumentReader(resource, config);
+            var textSplitter = new TokenTextSplitter();
+            vectorStore.accept(textSplitter.apply(pdfReader.get()));
+            log.info("DataLoaderService::load - Exception happend while trying to use ParagraphPdfDocumentReader -- switched to PagePdfDocumentReader");
+        }
         log.info("DataLoaderService::load - Successfully processed and stored resource: {}", resource.getFilename());
 
         if (file.isEmpty()) {
