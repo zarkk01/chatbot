@@ -121,7 +121,7 @@ public class DataLoaderService {
             log.error("DataLoaderService::folderLoader - Error loading PDF files from folder", e);
             return new Resource[0];
 
-    }
+        }
     }
 
     /**

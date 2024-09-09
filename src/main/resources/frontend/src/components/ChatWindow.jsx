@@ -1,20 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Message from './Message';
 import UploadButton from './UploadButton';
-import ScrollToBottom from './ScrollToBottom';
 import './ChatWindow.css';
 
 const ChatWindow = () => {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
+    const [isAtBottom, setIsAtBottom] = useState(true);
     const messagesEndRef = useRef(null);
     const chatContainerRef = useRef(null);
 
     const sendMessage = async () => {
         if (input.trim()) {
-            setInput('');
             const userMessage = { text: input, user: true };
             setMessages((prevMessages) => [...prevMessages, userMessage]);
+            setInput('');
 
             const response = await fetch(`http://localhost:8080/chat?query=${encodeURIComponent(input)}`);
             const data = await response.text();
@@ -33,8 +33,31 @@ const ChatWindow = () => {
     };
 
     useEffect(() => {
-        scrollToBottom(); // Scroll to bottom on initial render
-    }, [messages]); // Run when messages update
+        const handleScroll = () => {
+            if (chatContainerRef.current) {
+                const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+                const isBottom = scrollTop + clientHeight >= scrollHeight - 10; // Adjust threshold as needed
+                setIsAtBottom(isBottom);
+            }
+        };
+
+        const chatContainer = chatContainerRef.current;
+        if (chatContainer) {
+            chatContainer.addEventListener('scroll', handleScroll);
+            // Initial check to see if already at bottom
+            handleScroll();
+        }
+
+        return () => {
+            if (chatContainer) {
+                chatContainer.removeEventListener('scroll', handleScroll);
+            }
+        };
+    }, []);
+
+    useEffect(() => {
+        scrollToBottom(); // Scroll to bottom on messages update
+    }, [messages]);
 
     return (
         <div className="chat-window" ref={chatContainerRef}>
@@ -60,7 +83,7 @@ const ChatWindow = () => {
                 <UploadButton/>
                 <div className="text-under">Keep in mind that Chatbot responses may not always be relevant.</div>
             </div>
-            <ScrollToBottom scrollToBottom={scrollToBottom} /> {/* Integrate ScrollToBottom */}
+            {/*{!isAtBottom && <ScrollToBottom scrollToBottom={scrollToBottom} />} /!* Conditionally render ScrollToBottom *!/*/}
         </div>
     );
 };
