@@ -74,16 +74,16 @@ public class DataLoaderService {
                 .withPageExtractedTextFormatter(new ExtractedTextFormatter.Builder().build())
                 .withPagesPerDocument(1)
                 .build();
+
+        var textSplitter = new TokenTextSplitter();
         try {
-            var pdfReader = new ParagraphPdfDocumentReader(resource, config);
-            var textSplitter = new TokenTextSplitter();
-            vectorStore.accept(textSplitter.apply(pdfReader.get()));
+            var paragraphPdfDocumentReader = new ParagraphPdfDocumentReader(resource, config);
+            vectorStore.accept(textSplitter.apply(paragraphPdfDocumentReader.get()));
             log.info("DataLoaderService::load - Successfully used ParagraphPdfDocumentReader");
         }catch(Exception e) {
-            var pdfReader = new PagePdfDocumentReader(resource, config);
-            var textSplitter = new TokenTextSplitter();
-            vectorStore.accept(textSplitter.apply(pdfReader.get()));
-            log.info("DataLoaderService::load - Exception happend while trying to use ParagraphPdfDocumentReader -- switched to PagePdfDocumentReader");
+            var pagePdfDocumentReader = new PagePdfDocumentReader(resource, config);
+            vectorStore.accept(textSplitter.apply(pagePdfDocumentReader.get()));
+            log.info("DataLoaderService::load - Exception happened while trying to use ParagraphPdfDocumentReader -- switched to PagePdfDocumentReader");
         }
         log.info("DataLoaderService::load - Successfully processed and stored resource: {}", resource.getFilename());
 
