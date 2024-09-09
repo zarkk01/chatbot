@@ -102,26 +102,19 @@ public class DataLoaderService {
      */
     private Resource[] folderLoader() {
         log.info("DataLoaderService::folderLoader - Loading all PDF files from folder: {}", "src/main/resources/docs");
-        try (InputStream in = getClass().getClassLoader().getResourceAsStream("docs")) {
-            if (in == null) {
-                throw new IOException("Resource directory not found: src/main/resources/docs");
-            }
 
-            Path folderPath = Paths.get(getClass().getClassLoader().getResource("docs").toURI());
-            List<Resource> resources = Files.walk(folderPath)
-                    .filter(Files::isRegularFile)
-                    .filter(path -> path.toString().toLowerCase().endsWith(".pdf"))
-                    .map(path -> new FileSystemResource(path.toFile()))
-                    .collect(Collectors.toList());
+        File folder = new File("src/main/resources/docs");
+        File[] pdfFiles = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".pdf"));
+        assert pdfFiles != null;
+        Resource[] resources = new Resource[pdfFiles.length];
 
-            resources.forEach(resource -> log.debug("DataLoaderService::folderLoader - Found PDF file: {}", resource.getFilename()));
+        for (int i = 0; i < pdfFiles.length; i++) {
+            resources[i] = new FileSystemResource(pdfFiles[i]);
 
-            return resources.toArray(new Resource[0]);
-        } catch (IOException | URISyntaxException e) {
-            log.error("DataLoaderService::folderLoader - Error loading PDF files from folder", e);
-            return new Resource[0];
+            log.debug("DataLoaderService::folderLoader - Found PDF file: {}", pdfFiles[i].getName());
+        }
 
-    }
+        return resources;
     }
 
     /**
