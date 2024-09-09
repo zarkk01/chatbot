@@ -7,7 +7,6 @@ import org.springframework.ai.reader.pdf.config.PdfDocumentReaderConfig;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
 import org.springframework.ai.vectorstore.MongoDBAtlasVectorStore;
 import org.bson.Document;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -16,15 +15,7 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import static org.springframework.util.ResourceUtils.getFile;
 
 @Service
@@ -67,31 +58,31 @@ public class DataLoaderService {
             ? folderLoader()
             : new Resource[]{new UrlResource(file)};
 
-    for (Resource resource : resources) {
-        log.debug("DataLoaderService::load - Processing PDF resource: {}", resource.getFilename());
+        for (Resource resource : resources) {
+            log.debug("DataLoaderService::load - Processing PDF resource: {}", resource.getFilename());
 
-        var config = PdfDocumentReaderConfig.builder()
-                .withPageExtractedTextFormatter(new ExtractedTextFormatter.Builder().build())
-                .withPagesPerDocument(1)
-                .build();
-        try {
-            var pdfReader = new ParagraphPdfDocumentReader(resource, config);
-            var textSplitter = new TokenTextSplitter();
-            vectorStore.accept(textSplitter.apply(pdfReader.get()));
-            log.info("DataLoaderService::load - Successfully used ParagraphPdfDocumentReader");
-        }catch(Exception e) {
-            var pdfReader = new PagePdfDocumentReader(resource, config);
-            var textSplitter = new TokenTextSplitter();
-            vectorStore.accept(textSplitter.apply(pdfReader.get()));
-            log.info("DataLoaderService::load - Exception happend while trying to use ParagraphPdfDocumentReader -- switched to PagePdfDocumentReader");
-        }
-        log.info("DataLoaderService::load - Successfully processed and stored resource: {}", resource.getFilename());
+            var config = PdfDocumentReaderConfig.builder()
+                    .withPageExtractedTextFormatter(new ExtractedTextFormatter.Builder().build())
+                    .withPagesPerDocument(1)
+                    .build();
 
-        if (file.isEmpty()) {
-            deleteFile(resource);
+            var textSplitter = new TokenTextSplitter();
+            try {
+                var paragraphPdfDocumentReader = new ParagraphPdfDocumentReader(resource, config);
+                vectorStore.accept(textSplitter.apply(paragraphPdfDocumentReader.get()));
+                log.info("DataLoaderService::load - Successfully used ParagraphPdfDocumentReader");
+            }catch(Exception e) {
+                var pagePdfDocumentReader = new PagePdfDocumentReader(resource, config);
+                vectorStore.accept(textSplitter.apply(pagePdfDocumentReader.get()));
+                log.info("DataLoaderService::load - Exception happened while trying to use ParagraphPdfDocumentReader -- switched to PagePdfDocumentReader");
+            }
+            log.info("DataLoaderService::load - Successfully processed and stored resource: {}", resource.getFilename());
+
+            if (file.isEmpty()) {
+                deleteFile(resource);
+            }
         }
     }
-}
 
     /**
      * Loads all PDF files from the default folder located at 'src/main/resources/docs'.
@@ -102,26 +93,17 @@ public class DataLoaderService {
      */
     private Resource[] folderLoader() {
         log.info("DataLoaderService::folderLoader - Loading all PDF files from folder: {}", "src/main/resources/docs");
-        try (InputStream in = getClass().getClassLoader().getResourceAsStream("docs")) {
-            if (in == null) {
-                throw new IOException("Resource directory not found: src/main/resources/docs");
-            }
 
-            Path folderPath = Paths.get(getClass().getClassLoader().getResource("docs").toURI());
-            List<Resource> resources = Files.walk(folderPath)
-                    .filter(Files::isRegularFile)
-                    .filter(path -> path.toString().toLowerCase().endsWith(".pdf"))
-                    .map(path -> new FileSystemResource(path.toFile()))
-                    .collect(Collectors.toList());
+        File folder = new File("src/main/resources/docs");
+        File[] pdfFiles = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".pdf"));
+        assert pdfFiles != null;
+        Resource[] resources = new Resource[pdfFiles.length];
 
-            resources.forEach(resource -> log.debug("DataLoaderService::folderLoader - Found PDF file: {}", resource.getFilename()));
-
-            return resources.toArray(new Resource[0]);
-        } catch (IOException | URISyntaxException e) {
-            log.error("DataLoaderService::folderLoader - Error loading PDF files from folder", e);
-            return new Resource[0];
-
+        for (int i = 0; i < pdfFiles.length; i++) {
+            resources[i] = new FileSystemResource(pdfFiles[i]);
+            log.debug("DataLoaderService::folderLoader - Found PDF file: {}", pdfFiles[i].getName());
         }
+        return resources;
     }
 
     /**
