@@ -110,7 +110,6 @@ public class DataLoaderService {
 
         for (int i = 0; i < pdfFiles.length; i++) {
             resources[i] = new FileSystemResource(pdfFiles[i]);
-
             log.debug("DataLoaderService::folderLoader - Found PDF file: {}", pdfFiles[i].getName());
         }
 
