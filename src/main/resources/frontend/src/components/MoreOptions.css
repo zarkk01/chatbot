@@ -1,0 +1,100 @@
+/* MoreOptions.css */
+.more-options-container {
+    display: inline-block;
+}
+
+.toggle-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 3px; /* To align it nicely next to the arrow button */
+    margin-right: 10px;
+    border: none;
+    border-radius: 100%; /* Circular shape */
+    background-color: #DC143C; /* Vodafone red */
+    color: white;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    transition: box-shadow 0.3s ease;
+    position: absolute;
+    right: 536px;
+    top: 3.8px;
+}
+
+.options-box {
+    position: absolute;
+    top: -110px; /* Adjust as needed */
+    left: -50px;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 50px;
+    width: 32px;
+    z-index: 1000; /* Ensure it's above other elements */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* Add transition for opacity and visibility */
+}
+
+/* Show the options-box when visible */
+.more-options-container .show-options-box {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+.upload-button button {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background-color: #DC143C; /* Vodafone red */
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    right: 2px;
+    top: 0;
+}
+
+.upload-button input[type="file"] {
+    display: none;
+}
+
+.delete-button button {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background-color: #DC143C; /* Vodafone red */
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    right: 2px;
+    top: 0;
+}
+
+.upload-button button:hover, .delete-button button:hover, .toggle-button:hover {
+    background-color: #d91439; /* Darker red */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+
+.button-icon {
+    width: 20px;
+    height: auto; /* Maintain aspect ratio */
+}
+
+.delete-icon {
+    width: 100px; /* Example size, adjust as needed */
+    height: auto; /* Maintain aspect ratio */
+}

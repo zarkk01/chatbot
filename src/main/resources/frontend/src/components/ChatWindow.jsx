@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Message from './Message';
-import UploadButton from './UploadButton';
+import MoreOptions from './MoreOptions';
 import './ChatWindow.css';
 
 const ChatWindow = () => {
@@ -80,7 +80,8 @@ const ChatWindow = () => {
                     className="chat-input"
                 />
                 <button onClick={sendMessage} className="send-button">→</button>
-                <UploadButton/>
+                <MoreOptions />
+
                 <div className="text-under">Keep in mind that Chatbot responses may not always be relevant.</div>
             </div>
             {/*{!isAtBottom && <ScrollToBottom scrollToBottom={scrollToBottom} />} /!* Conditionally render ScrollToBottom *!/*/}
